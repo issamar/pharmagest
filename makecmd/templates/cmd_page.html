@@ -19,26 +19,28 @@
           <div class=" d-sm-flex justify-content-center border border-success rounded-pill py-2 px-2" style="text-align: center;" 
         >
           <div class="w-50 mx-auto my-3" >
-        
-            <select type="text" class="form-control" placeholder="choisi votre produit" list="prods" name="products" id="prd" >
+            
+           <input type="text" class="form-control text-uppercase" placeholder="choisi votre produit" list="prods" name="product" id="prd" autocomplete="off" autofocus>
             <datalist id="prods">
-              <option value="" disabled selected>Saisir vos produits</option>
+              
               {% for product in products%}
-              <option value="">{{product.name|upper}} {{product.dosage|upper}} {{product.cond|upper}} </option>
+              <option >{{product.name|upper}} {{product.dosage|upper}} {{product.cond|upper}} </option>
               {% endfor %}
-
+              {% for art in arts %}
+                <option> {{art.full_name}}</option>
+              {% endfor %}
             </datalist>
-            </select>
+            
           </div>
              
           <div class="w-25 mx-auto my-3" >
-            <select type="text" class="form-control" placeholder="Etat de prouit" list="stock_stat" name="stock" id="stk">
+            <select type="text" class="form-control text-uppercase" placeholder="Etat de prouit" list="stock_stat" name="prod_stat" id="stk">
             <datalist id="stock_stat">
               <option value="" disabled selected>Etat de produit</option>
-              <option value="">Pas de Stock</option>
-              <option value="">Faible Stock</option>
-              <option value="">Pour Ord</option>
-              <option value=""> Quota   </option>
+              <option value="Pas de Stock">Pas de Stock</option>
+              <option value="Faible Stock">Faible Stock</option>
+              <option value="Pour Ord">Pour Ord</option>
+              <option value="Quota"> Quota   </option>
             </datalist>
             </select>
           </div> 
@@ -55,11 +57,10 @@
           <form>
             <div class="d-sm-flex justify-content-center py-2 px-3" >
                 <div class="card mx-3 text-center my-2" style="width: 18rem; height: 60vh;">
-                    <div class="card-header "><h5 class="card-title"
-                        style="margin-top: 16px;margin-bottom: 14px;">Médicaments</h5></div>
+                    <div class="card-header"><h5 class="card-title" >Stock Epuisé & Ord <a href="{% url 'add-med'%}" style="text-decoration: none;">(+)</a> </h5></div>
                     <div class="card-body ">
                       
-                      
+                       
                       
                     </div>
                   
@@ -67,7 +68,7 @@
     
     
                   <div class="card mx-3 text-center my-2" style="width: 18rem; height: 60vh;" >
-                    <div class="card-header">                      <h5 class="card-title">Articles &  Compliments Alimentaire </h5></div>
+                    <div class="card-header"><h5 class="card-title">Faible Stock <a href="{% url 'add-med'%}" style="text-decoration: none;">(+)</a></h5></div>
                     <div class="card-body" style="text-align: left;" >
                         <div >
                             <input type="checkbox" name="" id=""> <label class="text-success">Doliprane</label>
@@ -81,8 +82,7 @@
 
                   </div>
                   <div class="card mx-3 text-center my-2" style="width: 18rem; height: 60vh;">
-                    <div class="card-header "><h5 class="card-title"
-                        style="margin-top: 16px;margin-bottom: 14px;">Quotas</h5></div>
+                    <div class="card-header"><h5 class="card-title">Quotas <a href="{% url 'add-med'%}" style="text-decoration: none;">(+)</a></h5></div>
                     <div class="card-body ">
                       
                       
@@ -91,15 +91,16 @@
 
                   </div>
             </div>
-            <div class="text-center">
-              <button class="btn btn-primary">Produits Commandés</button>
-              <button class="btn btn-success">Produits Reçus</button>
-            </div>
+
           </form> 
+          <div class="text-center">
+            <button class="btn btn-primary">Produits Commandés</button>
+            <button class="btn btn-success">Produits Reçus</button>
+          </div>
         </div>
     </section>
 
-
+   
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -110,5 +111,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     -->
+
   </body>
 </html>

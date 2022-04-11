@@ -3,19 +3,19 @@ from dataclasses import field
 from socket import fromshare
 from tkinter import Widget
 from django import forms
-from .models import Addmed
+from .models import Addmed, Addart
 
 
 class AddmedForm(forms.ModelForm):
     class Meta:
         model = Addmed
-        fields = ['name', 'dci', 'dosage', 'cond', 'types']
+        fields = ['name', 'dci', 'dosage', 'cond']
         labels = {
             'name' : '',
             'dci' : '',
             'dosage' : '',
-            'cond' : '',
-            'types' : ''
+            'cond' : ''
+           
         }
         widgets = {
             'name': forms.TextInput(attrs={
@@ -35,7 +35,21 @@ class AddmedForm(forms.ModelForm):
             'cond' : forms.TextInput(attrs={
                 'class' : 'form-control text-uppercase mt-3', 
                 'placeholder' : 'Conditionement (example F/100ml B/30)'}),
-            'types' : forms.Select(attrs={
-                'class' : 'form-control mt-3', 
-                'placeholder' : 'Type de produit'}),
+
+        }
+
+class AddartForm(forms.ModelForm):
+    class Meta:
+        model = Addart
+        fields = '__all__'
+        labels = {
+            'full_name' : ''
+        }
+        widgets = {
+            'full_name' : forms.TextInput(attrs={
+                'class' : 'form-control text-uppercase w-75 ',
+                'placeholder' : "Nom d'article ou cosmetique ou complement alimentaire",
+                'autocomplete' : 'autocomplete',
+                'list' : 'arts'
+            })
         }
