@@ -65,14 +65,23 @@
           </div>
           
         </div>
-        <div class="text-center mt-4 ">
+        {% if messages%}
+          <script>
+            {% for message in messages %}
+              alert("{{message}}")
+            {% endfor %}
+          </script>
+        {% endif%}
+        <!--<div class="text-center mt-4 ">
           {% if messages %}
           {% for message in messages %}
            <div {%if message.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{message}}</div>
           {% endfor %}
           {% endif %}
-          <a href="{% url 'cmd-page'%}"><button class="btn btn-info">Retour a la page de commande</button></a>
-        </div>
+          
+        </div>-->
+        <div class="text-center"><a href="{% url 'cmd-page'%}"><button class="btn btn-info mt-5 ">Retour a la page de commande</button></a></div>
+        
       </div>
       
     </section>

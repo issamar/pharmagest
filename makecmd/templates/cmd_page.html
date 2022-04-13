@@ -11,92 +11,139 @@
     <title>Vos Manquants</title>
   </head>
   <body >
-    <h1 class="text-center border border-info rounded-pill mx-auto mt-2 py-2" style="width: 400px;" >Mes Manquants</h1>
+    <h1 class="text-center border border-info rounded-pill mx-auto mt-2 py-2 " style="width: 400px; background-color: #5aa9bf;" >Mes Manquants</h1>
     
     <!-- Product add zone -->
     <div class="container">
         <form action="" method="POST">{% csrf_token %}
-          <div class=" d-sm-flex justify-content-center border border-success rounded-pill py-2 px-2" style="text-align: center;" 
+          <div class=" d-sm-flex justify-content-center  py-2 px-2 " style="text-align: center;" 
         >
           <div class="w-50 mx-auto my-3" >
             
-           <input type="text" class="form-control text-uppercase" placeholder="choisi votre produit" list="prods" name="product" id="prd" autocomplete="off" autofocus>
+           <input type="text" class="form-control text-uppercase" placeholder="choisi votre produit" list="prods" name="product" id="prd" autocomplete="off" autofocus required>
             <datalist id="prods">
               
               {% for product in products%}
               <option >{{product.name|upper}} {{product.dosage|upper}} {{product.cond|upper}} </option>
               {% endfor %}
               {% for art in arts %}
-                <option> {{art.full_name}}</option>
+                <option> {{art.full_name|upper}}</option>
               {% endfor %}
             </datalist>
             
           </div>
-             
+          <div class=" mx-auto my-3"><a href="{% url 'add-med'%}" style="text-decoration: none;font-size: 20px;" title="Ajout Nv produit">(+)</a></div>  
           <div class="w-25 mx-auto my-3" >
-            <select type="text" class="form-control text-uppercase" placeholder="Etat de prouit" list="stock_stat" name="prod_stat" id="stk">
+            <select type="text" class="form-control text-uppercase" placeholder="Etat de prouit" list="stock_stat" name="prod_stat" id="stk" required>
             <datalist id="stock_stat">
               <option value="" disabled selected>Etat de produit</option>
               <option value="Pas de Stock">Pas de Stock</option>
               <option value="Faible Stock">Faible Stock</option>
               <option value="Pour Ord">Pour Ord</option>
-              <option value="Quota"> Quota   </option>
+              <option value="Quota" style="color: blue;"> Quota   </option>
             </datalist>
             </select>
           </div> 
           <div> 
-            <button class="btn btn-success my-3" >Enregistrer</button>
+            <button class="btn btn-success my-3" name="register">Enregistrer</button>
           </div>
-        </div>
+        
+        </div> 
+        
         </form>
+        
       </div>
-
+      <div class="d-sm-flex justify-content-around "> <label style="color: blue;">Quota & Pour ord </label>  <label style="color: red;">Indisponible  </label>  <label >  N'est pas commandé   </label>    <label style="color:green;">   Commandé   </label></div>
+      
 <!-- Product list zone-->
-    <section class="py-3">
+    <section class="py-3 " id="sec">
         <div class="container ">
-          <form>
+          <form method="POST">{% csrf_token%}
             <div class="d-sm-flex justify-content-center py-2 px-3" >
-                <div class="card mx-3 text-center my-2" style="width: 18rem; height: 60vh;">
-                    <div class="card-header"><h5 class="card-title" >Stock Epuisé & Ord <a href="{% url 'add-med'%}" style="text-decoration: none;">(+)</a> </h5></div>
-                    <div class="card-body ">
-                      
-                       
+                <div class="card mx-3 text-center my-2" style="width: 27rem; height: 60vh;" >
+                    <div class="card-header"><h5 class="card-title" >Stock Epuisé & Ord  ({{ste_ord}})</h5></div>
+                    <div class="card-body " style="text-align: left; overflow: auto;">
+                     
+                      {% for elem in My_cmd_ste %}
+                        {% if elem.cmded == True %}
+                          <div >
+                            <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> <label  style="color: green;">{{elem.product}} </label>
+                          </div>
+                        {% elif elem.indisponible == True %}
+                          <div >
+                            <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> <label style="color: red;" >{{elem.product}} </label>
+                          </div>
+                        {% else %}
+                          <div >
+                            <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> <label  >{{elem.product}} </label>
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                      {% for oelem in My_cmd_ord%}
+                      {% if oelem.cmded == True %}
+                        <div >
+                          <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> <label style="color: green;" >{{oelem.product}}</label>
+                        </div>
+                      {% elif oelem.indisponible == True%}
+                        <div >
+                          <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> <label style="color: red;" >{{oelem.product}}</label>
+                        </div>
+                      {% else %}
+                        <div >
+                          <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> <label style="color: blue;" >{{oelem.product}}</label>
+                        </div>
+                      {% endif %}
+                      {% endfor %}
                       
                     </div>
                   
                   </div>
     
     
-                  <div class="card mx-3 text-center my-2" style="width: 18rem; height: 60vh;" >
-                    <div class="card-header"><h5 class="card-title">Faible Stock <a href="{% url 'add-med'%}" style="text-decoration: none;">(+)</a></h5></div>
-                    <div class="card-body" style="text-align: left;" >
+                  <div class="card mx-3 text-center my-2" style="width: 27rem; height: 60vh;" >
+                    <div class="card-header"><h5 class="card-title">Faible Stock & Quotas ({{stf_q}})</h5></div>
+                    <div class="card-body" style="text-align: left;overflow: auto;" >
+                      {% for felem in My_cmd_stf %}
+                      {% if felem.cmded == True %}
                         <div >
-                            <input type="checkbox" name="" id=""> <label class="text-success">Doliprane</label>
+                          <input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> <label  style="color: green;">{{felem.product}}</label>
                         </div>
+                      {% elif felem.indisponible %}
                         <div >
-                            <input type="checkbox" name="" id=""> <label class="text-danger">Dolyc</label>
+                          <input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> <label  style="color: red;">{{felem.product}}</label>
                         </div>
-                      
+                      {% else %}
+                        <div >
+                          <input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> <label  >{{felem.product}}</label>
+                        </div>
+                      {% endif%}
+                      {% endfor %}
+                      {% for qelem in My_cmd_q %}
+                      {% if qelem.cmded == True %}
+                        <div >
+                          <input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> <label style="color: blue;" >{{qelem.product}} <sup style="color: green;">Commondé</sup></label>
+                        </div>
+                      {% else %}
+                      <div >
+                        <input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> <label style="color: blue;" >{{qelem.product}} <sup>Commondé</sup></label>
+                      </div>
+                      {% endif %}
+                      {% endfor %}
                       
                     </div>
 
                   </div>
-                  <div class="card mx-3 text-center my-2" style="width: 18rem; height: 60vh;">
-                    <div class="card-header"><h5 class="card-title">Quotas <a href="{% url 'add-med'%}" style="text-decoration: none;">(+)</a></h5></div>
-                    <div class="card-body ">
-                      
-                      
-                      
-                    </div>
-
-                  </div>
+                  
             </div>
 
-          </form> 
+           
           <div class="text-center">
-            <button class="btn btn-primary">Produits Commandés</button>
-            <button class="btn btn-success">Produits Reçus</button>
+            <button class="btn btn-primary" name="cmded">Produits Commandés</button>
+            <button class="btn btn-success" name="rec">Produits Reçus</button>
+            <button class="btn btn-danger" name="indis">Produits indisponible</button>
           </div>
+        </form>
+  
         </div>
     </section>
 
@@ -104,13 +151,15 @@
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-    -->
+
+  }
 
   </body>
 </html>

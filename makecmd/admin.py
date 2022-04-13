@@ -6,6 +6,6 @@ from .models import Mycmd
 #admin.site.register(Mycmd)
 @admin.register(Mycmd)
 class CmdAdmin(admin.ModelAdmin):
-	list_display = ('product', 'prod_stat', 'cmded', 'received')
+	list_display = ('product', 'prod_stat', 'cmded', 'received', 'indisponible')
 	ordering = ('product',)
 	search_fields = ('product',)

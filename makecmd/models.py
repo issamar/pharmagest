@@ -5,5 +5,5 @@ class Mycmd(models.Model):
     prod_stat = models.CharField('prod_stat', max_length=100)
     cmded = models.BooleanField('cmded', default=False)
     received = models.BooleanField('received', default=False)
-    
+    indisponible = models.BooleanField('received', default=False)
  
