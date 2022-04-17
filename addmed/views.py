@@ -1,12 +1,14 @@
 from traceback import print_tb
 from django.shortcuts import render
 import itertools
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import AddmedForm, AddartForm
 from .models import Addmed, Addart
 # Create your views here.
 
 # a function to add new product to the database
+@login_required(login_url='main-page')
 def AddMed(request): 
     form = AddmedForm()
     art_form = AddartForm()

@@ -66,7 +66,7 @@
                 pour satisfaire les patients
               </p>
               <div class="text-center py-3">
-                  <button class="btn btn-primary">Inscrivez Maintenant </button>
+                  <a href="#insc"><button class="btn btn-primary">Inscrivez Maintenant </button></a>
               </div>
             
               
@@ -160,18 +160,23 @@
     </section>
 
 <!--Inscription-->
-<section class="py-5 ">
+<section class="py-5 " id="insc">
   <div class="container">
     <h2 class="text-center display-5">Inscrivez Maintenant</h2>
-    <form>
+    <form method="POST">{% csrf_token %}
       <div class="input-group py-5">
-        <input type="text" class="form-control mx-3" placeholder="Votre Email">
-        <input type="password" class="form-control mx-3" placeholder="Votre mot de passe">
+        <input type="text" class="form-control mx-3" placeholder="Votre nom d'utilisateur" name="username" >
+        <input type="password" class="form-control mx-3" placeholder="Votre mot de passe" name="password">
         <button class="btn btn-primary">Acccedez</button>
       </div>
       
     </form>
   </div>
+  {% if messages %}
+    {% for message  in messages %}
+      <div {% if message.tags %} class="alert alert-{{message.tags}}" {% endif %}>{{message}}</div>
+    {% endfor %}
+  {% endif %}
 </section>
 
 
