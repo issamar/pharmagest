@@ -11,7 +11,8 @@ from .forms import MycmdForm
 def CmdPage(request):
     form = MycmdForm
     current_user = request.user.id
-    print(current_user, flush=True)
+    current_username = request.user
+    
     
     # pull data from db based on categories
     My_cmd_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False, client= current_user).order_by('product')
@@ -40,26 +41,16 @@ def CmdPage(request):
             all_prod_cmd = Mycmd.objects.values_list('product').filter(received = False, client = current_user)
             new_product = request.POST['product']
             all_prod_cmd_list = list(itertools.chain(*all_prod_cmd))
-            if new_product not in all_prod_cmd_list:
-                
+            if new_product not in all_prod_cmd_list: 
                 form = MycmdForm(request.POST)
-                
                 if form.is_valid():
-                   
                     form.save()
 
-                    messages.info(request,'Produit ajouté avec succé')
-                    ste_ord = count_ord + count_ste
-                    stf_q = count_q + count_stf
-                else:
-                    messages.warning(request, 'Le produit selectionné est deja ajouté')
         elif 'cmded' in request.POST:
             selected_prods = request.POST.getlist('products')
             for item in selected_prods:
                 obj = Mycmd.objects.get(product=item, received = False, client= current_user)
-                print(obj, flush=True)
                 obj.cmded = True
-                
                 obj.save()
         elif 'rec' in request.POST:
             selected_prods = request.POST.getlist('products')
@@ -86,7 +77,7 @@ def CmdPage(request):
         stf_q = count_q + count_stf
 
  
-    return render(request,'cmd_page.html',{'form' : form, 'products': products, 'arts' : arts, 'My_cmd_ste' : My_cmd_ste, 'My_cmd_stf': My_cmd_stf, 'My_cmd_ord' : My_cmd_ord, 'My_cmd_q': My_cmd_q,
+    return render(request,'cmd_page.html',{'current_username':current_username, 'form' : form, 'products': products, 'arts' : arts, 'My_cmd_ste' : My_cmd_ste, 'My_cmd_stf': My_cmd_stf, 'My_cmd_ord' : My_cmd_ord, 'My_cmd_q': My_cmd_q,
                     'ste_ord': ste_ord, 'stf_q' : stf_q , 'current_user'  : current_user})
 
 

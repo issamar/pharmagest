@@ -21,4 +21,5 @@ urlpatterns = [
     path('',include('mainpage.urls')),
     path('cmd',include('makecmd.urls')),
     path('addmed', include('addmed.urls')),
+    path('contact', include('contact.urls')),
 ]

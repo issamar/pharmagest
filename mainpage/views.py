@@ -1,6 +1,8 @@
+from dataclasses import fields
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+
 # Create your views here.
 def MainPage(request):
     if request.method == 'POST':
@@ -17,6 +19,10 @@ def MainPage(request):
 
         
     return render(request, 'index.html',{})
+
+    
 def logout_user(request):
     logout(request)
     return redirect('main-page')
+
+

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'mainpage',
     'makecmd',
     'addmed',
+    'contact',
 ]
 
 MIDDLEWARE = [
