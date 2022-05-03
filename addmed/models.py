@@ -5,7 +5,7 @@ class Addmed(models.Model):
     name = models.CharField('name', max_length=250)
     dci  = models.CharField('dci', max_length=250)
     dosage = models.CharField('dosage', max_length=50)
-    cond = models.CharField('cond', max_length=25)
+    cond = models.CharField('cond', max_length=100)
     
 
     def __str__(self):
