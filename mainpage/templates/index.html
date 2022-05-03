@@ -108,6 +108,9 @@
                       </ul>
                       
                     </div>
+                    <div class="text-center">
+                      <a href="{% url 'user_proof' %}"><button class="btn btn-success m-2" name=" basic" >  Valider</button></a>
+                    </div>
                   </div>
                 </div>
                 <div class="col-sm">
@@ -124,6 +127,9 @@
                       </ul>
                       
                     </div>
+                    <div class="text-center">
+                      <a href="#"><button class="btn btn-success m-2" name=" Avancé" disabled>  Valider</button></a>
+                    </div>
                   </div>
                 </div>
                 <div class="col-sm">
@@ -137,6 +143,9 @@
                         <li> Avoir toutes les applications des autres catégories <strong>mais avec votre propre propre site web</strong>  </li>
                       </ul>
                       
+                    </div>
+                    <div class="text-center">
+                      <a href="#"><button class="btn btn-success m-2" name=" Professionnel" disabled >  Valider</button></a>
                     </div>
                   </div>
                 </div>
@@ -299,7 +308,9 @@
                         <li>Gestion des commandes</li>
                         <li>Application pour déchiffrage</li>
                       </ul>
-                      
+                      <div class="text-center">
+                        <a href="{% url 'user_proof' %}"><button class="btn btn-success" name=" basic" >  Valider</button></a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -315,7 +326,9 @@
                         <li>Suivi des revenus quotidiens</li>
                         <li>Suivi des bordereaux </li>
                       </ul>
-                      
+                      <div class="text-center">
+                        <button class="btn btn-success" name=" basic" disabled>Valider</button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -329,7 +342,9 @@
                       <ul>
                         <li> Avoir toutes les applications des autres catégories <strong>mais avec votre propre propre site web</strong>  </li>
                       </ul>
-                      
+                      <div class="text-center">
+                        <button class="btn btn-success" name=" basic" disabled>Valider</button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -343,13 +358,16 @@
         <div class="container">
           <h2 class="text-center display-5">Inscrivez Maintenant</h2>
           <form method="POST">{% csrf_token %}
-            <div class="input-group py-5">
+            <div class="input-group py-5 ">
               <input type="text" class="form-control mx-3" placeholder="Votre nom d'utilisateur" name="username" >
               <input type="password" class="form-control mx-3" placeholder="Votre mot de passe" name="password">
-              <button class="btn btn-primary">Acccedez</button>
+              <button class="btn btn-primary">Acccedez</button> 
+              
             </div>
-            
+            <div class="text-center">Vous n'avez un compte encore ?? <a href="{% url 'register' %}">Enregistrez-vous maintenant</a> </div>
+            <div class="text-center">Mot de passe oublié ?? <a href="{% url 'reset_password'%}">Cliquer Ici </a> </div>
           </form>
+          
         </div>
         {% if messages %}
           {% for message  in messages %}

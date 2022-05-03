@@ -38,6 +38,7 @@ def CmdPage(request):
     if request.method == 'POST':
         
         if 'register' in request.POST:
+            
             all_prod_cmd = Mycmd.objects.values_list('product').filter(received = False, client = current_user)
             new_product = request.POST['product']
             all_prod_cmd_list = list(itertools.chain(*all_prod_cmd))

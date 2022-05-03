@@ -9,57 +9,64 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <style>
-       body::before{
-        content:'';
-        display: block;
-        height: 55px;
-        background-image: url("Bootstrap/img/ph.jpg");
-      }
+}
       #a1{
         background-image: url("Bootstrap/img/ph.jpg");
       }
 
     </style>
-    <title>Mes manquants</title>
+    <title> {% block title %}Mes manquants{% endblock%} </title>
   </head>
   <body>
     <!-- navbar-->
-    <div class="navbar navbar-expand-md navbar-dark bg-dark text-white fixed-top" style="height: 60px;">
-      <div class="container">
-        <a href="{% url 'main-page'%}" class="navbar-brand">PharmGest</a>
-        <button 
-        class="navbar-toggler" 
-        type="button" 
-        data-bs-toggle="collapse" 
-        data-bs-target="#mainav" 
-        ><span class="navbar-toggler-icon"></span>
-      </button>
-        <div class="collapse navbar-collapse" id="mainav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item hov"><a href="{% url 'cmd-page'%}" class="nav-link">Commande</a></li>
-                <li class="nav-item dropdown hov"><a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Tiers payant</a>
-                  <ul class="dropdown-menu bg-dark ">
-                    <li><a href="#conv" class="dropdown-item text-light hov">CNAS</a></li>
-                    <li><a href="#conv" class="dropdown-item text-light hov">CASNOS</a></li>
-                  </ul>
-                </li>
-                <li class="nav-item"><a href="#clo" class="nav-link">Cloture</a></li>
-                <li class="nav-item">
-                  <a href="{% url 'contact'%}" class="nav-link">Contact</a>
-                </li>
-                <li class="nav-item d-inline-flex border border-info rounded-pill px-1" >
-                <span class="py-2">Bienvenue :</span> <a href="" class="nav-link text-warning" > {{current_username}} </a>
-                  <a href="{% url 'logout'%}" class="nav-link"> Déconnecter</a>
-                </li>
-               
-            </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid  ">
+        <a class="navbar-brand flex-grow-1" href="{% url 'main-page'%} ">PharmaGest</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse  " id="navbarSupportedContent" >
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'cmd-page'%}">Mes manquants</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'dech'%}">Déchiffrage</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'main-page'%}#clo">Revenu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'main-page'%}#conv">Tiers payant</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'contact'%}">Contact</a>
+            </li>
+ 
+            
+            <li class="nav-item dropdown border border-info rounded-3 px-1">
+              
+              <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="text-warning py-2 ">Bienvenue  {{request.user}} </span>
+              </a>
+              
+              <ul class="dropdown-menu bg-dark " aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item text-light" href="{% url 'reset_password'%}">Changer Mot de passe</a></li>
+                <li><a class="dropdown-item text-light" href="{% url 'logout'%}">Déconnecter</a></li>
+
+              </ul>
+            </li>
+            
+            
+          </ul>
+         
         </div>
-      </div>  
-    </div>
+      </div>
+    </nav>
 
 {% block content %}
     <div class="d-sm-flex justify-content-between d-block text-center">
-      <h1 class="text-center border border-info rounded-pill mx-auto mt-2 py-2 " style="width: 400px; background-color: #5aa9bf;" >Mes Manquants</h1>
+      <h1 class="text-center border border-info rounded-pill mx-auto mt-2 py-2 " style="width: 400px; background-color: #5aa9bf;" > <i class="bi bi-cart4"></i>   Mes Manquants</h1>
      
     </div>
     <!-- Product add zone -->
@@ -67,7 +74,7 @@
         <form action="" method="POST">{% csrf_token %}
           <div class=" d-sm-flex justify-content-center  py-2 px-2 " style="text-align: center;" 
         >
-          <div class="w-50 mx-auto my-3" >
+          <div class=" mx-auto my-3" style="width: 60%;" >
             
            <input type="text" class="form-control text-uppercase" placeholder="choisi votre produit" list="prods" name="product" id="prd" autocomplete="off" autofocus required>
             <datalist id="prods">
@@ -81,9 +88,9 @@
             </datalist>
             
           </div>
-          <div class=" mx-auto my-3"><a href="{% url 'add-med'%}" style="text-decoration: none;font-size: 20px;" title="Ajout Nv produit">(+)</a></div>  
+          <div class="  mx-2 my-3"><a href="{% url 'add-med'%}" style="text-decoration: none;font-size: 20px;" title="Ajout Nv produit">(+)</a></div>  
           <div class="w-25 mx-auto my-3" >
-            <select type="text" class="form-control text-uppercase" placeholder="Etat de prouit" list="stock_stat" name="prod_stat" id="stk" required>
+            <select type="text" class="form-control text-uppercase" placeholder="Etat de prouit" list="stock_stat" name="prod_stat" id="stk" required onchange="qttfunc()">
             <datalist id="stock_stat">
               <option value="" disabled selected>Etat de produit</option>
               <option value="Pas de Stock">Pas de Stock</option>
@@ -93,8 +100,12 @@
             </datalist>
             </select>
           </div>
-           {{form.client}}
+            <input type="text" value="{{request.user.id}}" class="form-control" id="id_client" name="client">
+            
+           <div class="  mx-auto my-3  "> 
+             <input type="number" name="qtt" placeholder="Qtt" class="form-control m-auto" style="width: 40%;"> </div>  
           <div> 
+
             <button class="btn btn-success my-3" name="register">Enregistrer</button>
           </div>
         
@@ -108,38 +119,68 @@
     <section class="py-3 " id="sec">
         <div class="container ">
           <form method="POST">{% csrf_token%}
-            <div class="d-sm-flex justify-content-center py-2 px-3" >
-                <div class="card mx-3 text-center my-2" style="width: 27rem; height: 60vh;" >
-                    <div class="card-header"><h5 class="card-title" >Stock Epuisé & Ord  ({{ste_ord}})</h5></div>
+            <div class="d-sm-flex justify-content-center py-4 px-3" >
+                <div class="card mx-3 text-center my-2" style=" height: 60vh;" >
+                    <div class="card-header bg-danger"><h5 class="card-title" > <i class="bi bi-bag-x-fill"></i> Stock Epuisé & Ord  ({{ste_ord}})</h5></div>
                     <div class="card-body " style="text-align: left; overflow: auto;">
                      
+                     
+                      <!-- Dispaly stock 0 with nusted if -->
                       {% for elem in My_cmd_ste %}
                         {% if elem.cmded == True %}
                           <div >
-                            <label title="Commandé" style="color: green;"> <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> {{elem.product}} </label>
+                            {% if elem.qtt == None %}
+                            <label title="Commandé" style="color: green;"> <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> {{elem.product}}</label>
+                            {% else %}
+                            <label title="Commandé" style="color: green;"> <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> {{elem.product}} {{elem.qtt}}</label>
+                            {% endif%}
                           </div>
                         {% elif elem.indisponible == True %}
                           <div >
+                            {% if elem.qtt == None %}
                             <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> {{elem.product}} </label>
+                            {% else %}
+                            <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> {{elem.product}} ({{elem.qtt}})</label>
+                            {% endif %}
                           </div>
                         {% else %}
                           <div >
-                             <label title="Pas encore commnadé" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}">  {{elem.product}} </label>
+                            {% if elem.qtt == None %}
+                              <label title="Pas encore commnadé" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}">  {{elem.product}} </label>
+                            {% else %}
+                            <label title="Pas encore commnadé" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}">  {{elem.product}} ({{elem.qtt}})</label>
+                            {% endif %}
                           </div>
                         {% endif %}
                       {% endfor %}
+
+
+
+                      <!-- display Pour ord with nusted if-->
                       {% for oelem in My_cmd_ord%}
                       {% if oelem.cmded == True %}
                         <div >
-                          <label title="commnadé avec succé" style="color: green;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}}</label>
+                          {% if oelem.qtt == None %}
+                          <label title="commnadé avec succé" style="color: green;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}} </label>
+                          {% else %}
+                          <label title="commnadé avec succé" style="color: green;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}} ({{oelem.qtt}})</label>
+                          {% endif %}
                         </div>
                       {% elif oelem.indisponible == True%}
                         <div >
-                          <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}}</label>
+                         {% if oelem.qtt == None %}
+                         <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}}  </label>
+                         {% else %}
+                         <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}} ({{oelem.qtt}})</label>
+                         {% endif %}
                         </div>
                       {% else %}
                         <div >
+                          {% if oelem.qtt == None %}
                           <label title="Pour Ord" style="color: blue;" ><input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}}</label>
+                          {% else %}
+                          <label title="Pour Ord" style="color: blue;" ><input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}} ({{oelem.qtt}})</label>
+                          {% endif%}
                         </div>
                       {% endif %}
                       {% endfor %}
@@ -149,32 +190,57 @@
                   </div>
     
     
-                  <div class="card mx-3 text-center my-2" style="width: 27rem; height: 60vh;" >
-                    <div class="card-header"><h5 class="card-title">Faible Stock & Quotas ({{stf_q}})</h5></div>
+                  <div class="card mx-3 text-center my-2" style=" height: 60vh;" >
+                    <div class="card-header bg-warning"><h5 class="card-title"> <i class="bi bi-bag-dash-fill"></i> Faible Stock & Quotas ({{stf_q}})</h5></div>
                     <div class="card-body" style="text-align: left;overflow: auto;" >
+
+
+                      <!-- display stock low with nusted if-->
                       {% for felem in My_cmd_stf %}
                       {% if felem.cmded == True %}
                         <div >
-                          <label title="Commandé avec succé" style="color: green;"><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}}</label>
+                          {% if felem.qtt == None %}
+                          <label title="Commandé avec succé" style="color: green;"><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} </label>
+                          {% else %}
+                          <label title="Commandé avec succé" style="color: green;"><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} ({{felem.qtt}})</label>
+                          {% endif %}
                         </div>
                       {% elif felem.indisponible %}
                         <div >
-                          <label title="Introuvable" style="color: red;"><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}}</label>
+                          {% if felem.qtt == None %}
+                          <label title="Introuvable" style="color: red;"><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} </label>
+                          {% else %}
+                          <label title="Introuvable" style="color: red;"><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} ({{felem.qtt}})</label>
+                          {% endif %}
                         </div>
                       {% else %}
                         <div >
-                           <label title="Pas encore commandé" ><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}}</label>
+                           {% if felem.qtt == None %}
+                           <label title="Pas encore commandé" ><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} </label>
+                           {% else %}
+                           <label title="Pas encore commandé" ><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} ({{felem.qtt}})</label>
+                           {% endif%}
                         </div>
                       {% endif%}
                       {% endfor %}
+
+                      <!-- dispalay quota with nusted if-->
                       {% for qelem in My_cmd_q %}
                       {% if qelem.cmded == True %}
                         <div >
-                           <label title=" Quota commandée" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> {{qelem.product}} <sup style="color: green;">Commondé</sup></label>
+                          {% if qelem == None %}
+                          <label title=" Quota commandée" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> {{qelem.product}} <sup style="color: green;">Commondé</sup></label>
+                          {% else %}
+                          <label title=" Quota commandée" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> {{qelem.product}} ({{qelem.qtt}})<sup style="color: green;">Commondé</sup></label>
+                          {% endif %}
                         </div>
                       {% else %}
                       <div >
-                         <label title="Produit quota" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> {{qelem.product}} <sup>Commondé</sup></label>
+                          {% if qelem.qtt == None %}
+                          <label title="Produit quota" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> {{qelem.product}}<sup>Commondé</sup></label>
+                          {% else %}
+                          <label title="Produit quota" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> {{qelem.product}} ({{qelem.qtt}})<sup>Commondé</sup></label>
+                          {% endif %}
                       </div>
                       {% endif %}
                       {% endfor %}
@@ -187,9 +253,9 @@
 
            
           <div class="text-center">
-            <button class="btn btn-primary" name="cmded">Produits Commandés</button>
-            <button class="btn btn-success" name="rec">Produits Reçus</button>
-            <button class="btn btn-danger" name="indis">Produits indisponible</button>
+            <button class="btn btn-primary my-2" name="cmded"> <i class="bi bi-cart-check-fill"></i> Produits Commandés</button>
+            <button class="btn btn-success my-2" name="rec"> <i class="bi bi-cart-fill"></i> Produits Reçus</button>
+            <button class="btn btn-danger my-2" name="indis"> <i class="bi bi-cart-dash"></i> Produits indisponible</button>
           </div>
         </form>
   
@@ -226,7 +292,11 @@
   
   document.getElementById('id_client').style = 'visibility : hidden;width : 10px';
   
-  document.getElementById('id_client').value = {{current_user}};
+  
+
+  
+    
+  
 </script>
 </body>
  

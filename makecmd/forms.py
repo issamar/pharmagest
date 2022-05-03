@@ -9,10 +9,11 @@ from .models import Mycmd
 class MycmdForm(forms.ModelForm):
     class Meta:
         model = Mycmd
-        fields = ['product', 'prod_stat', 'cmded', 'received', 'indisponible', 'client']
+        fields = ['product', 'prod_stat', 'qtt','cmded', 'received', 'indisponible', 'client']
         widgets = {
             'client' : forms.Select(attrs={
                 'type' : 'hidden',
+                
                 
             })
         }
