@@ -1,7 +1,7 @@
 from cProfile import label
 from dataclasses import field
 
-from tkinter import Widget
+
 from django import forms
 from .models import Addmed, Addart
 

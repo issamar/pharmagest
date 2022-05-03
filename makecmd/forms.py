@@ -1,7 +1,6 @@
 from cProfile import label
 from dataclasses import field, fields
-from socket import fromshare
-from tkinter import Widget
+
 from django import forms
 from .models import Mycmd
 
