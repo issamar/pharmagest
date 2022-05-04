@@ -69,7 +69,7 @@ def AddMed(request):
         
     return render(request, 'addmed/add_med.html',{'form' : form, 'dcis' : dcis, 'art_form' : art_form, })
 
-
+@login_required(login_url='main-page')
 def dech(request):
      # pull all meds from db
     products = Addmed.objects.all()
@@ -92,5 +92,5 @@ def dech(request):
         arts_match = [ s for s in artss if item_to_search in s]
         
 
-        return render (request, 'dech.html',{'products':products, 'arts':arts, 'product_match': products_match, 'dcis_match' : dcis_match, 'arts_match' : arts_match})
+        return render (request, 'dech.html',{'products':products, 'arts':arts, 'products_match': products_match, 'dcis_match' : dcis_match, 'arts_match' : arts_match})
     return render (request, 'dech.html',{'products':products, 'arts':arts})

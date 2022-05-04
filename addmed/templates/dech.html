@@ -41,7 +41,7 @@
                   <div class="card-body" style="overflow: auto;">
                     
                     <ul>
-                        {% for prod in product_match %}
+                        {% for prod in products_match %}
                         <li >{{prod|upper}} </li>
                         {% endfor %}
                     </ul>
@@ -51,7 +51,7 @@
                 </div>
               </div>
               <div class="col-sm py-2">
-                <div class="card" style="height: 60vh;">
+                <div class="card border border-warning" style="height: 60vh;">
                   <div class="card-header text-center bg-warning">
                     <i class="bi bi-layers"></i> DCI
                   </div>
@@ -68,7 +68,7 @@
                 </div>
               </div>
               <div class="col-sm py-2">
-                <div class="card" style="height: 60vh;">
+                <div class="card border border-success" style="height: 60vh;">
                   <div class="card-header text-center bg-success">
                     <i class="bi bi-pin-angle-fill"></i> Article
                   </div>
