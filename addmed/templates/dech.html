@@ -39,13 +39,13 @@
                     <img src="{% static 'pill-svg.svg'%}" alt="pill" style="width: 20px;"> Médicament
                   </div>
                   <div class="card-body" style="overflow: auto;">
-                    
+                    {% for prod in products_match %}
                     <ul>
-                        {% for prod in products_match %}
+                        
                         <li >{{prod|upper}} </li>
-                        {% endfor %}
+                        
                     </ul>
-                    
+                    {% endfor %}
                   </div>
                   
                 </div>
@@ -56,13 +56,13 @@
                     <i class="bi bi-layers"></i> DCI
                   </div>
                   <div class="card-body"style="overflow: auto;">
-                    
+                    {% for dci in dcis_match %}
                     <ul >
-                        {% for dci in dcis_match %}
+                        
                         <li >{{dci|upper}} </li>
-                        {% endfor %}
+                        
                     </ul>
-                    
+                    {% endfor %}
                   </div>
                   
                 </div>
@@ -73,13 +73,13 @@
                     <i class="bi bi-pin-angle-fill"></i> Article
                   </div>
                   <div class="card-body" style="overflow: auto;">
-                    
+                     {% for art in arts_match %}
                     <ul>
-                        {% for art in arts_match %}
+                       
                         <li >{{art|upper}} </li>
-                        {% endfor %}
+                        
                     </ul>
-                    
+                    {% endfor %}
                   </div>
                   
                 </div>
