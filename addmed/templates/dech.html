@@ -32,7 +32,7 @@
     <section class="m-5">
         <div class="container">
             
-            <div class=" row  align-items-baseline ">
+            <div class=" row  align-items-baseline "> 
               <div class="col-sm  py-2">
                 <div class="card border border-info" style="height: 60vh;">
                   <div class="card-header text-center bg-info">
@@ -40,11 +40,11 @@
                   </div>
                   <div class="card-body" style="overflow: auto;">
                     {% for prod in products_match %}
-                    <ul>
+                  
                         
-                        <li >{{prod|upper}} </li>
+                      {{prod|upper}} <br>
                         
-                    </ul>
+                  
                     {% endfor %}
                   </div>
                   
@@ -57,11 +57,11 @@
                   </div>
                   <div class="card-body"style="overflow: auto;">
                     {% for dci in dcis_match %}
-                    <ul >
+                    
                         
-                        <li >{{dci|upper}} </li>
+                        {{dci|upper}} <br>
                         
-                    </ul>
+                    
                     {% endfor %}
                   </div>
                   
@@ -74,11 +74,11 @@
                   </div>
                   <div class="card-body" style="overflow: auto;">
                      {% for art in arts_match %}
-                    <ul>
+                    
                        
-                        <li >{{art|upper}} </li>
+                        {{art|upper}} <br>
                         
-                    </ul>
+                    
                     {% endfor %}
                   </div>
                   
