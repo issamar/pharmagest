@@ -1,0 +1,83 @@
+{% extends 'cmd_page.html'%}
+{% load static %}
+{% block title %} Déchiffrage {% endblock %}
+
+{% block content %}
+<h2 class="text-center bg-success  rounded-pill w-75 m-auto mt-3 p-3"> <i class="bi bi-file-medical-fill"></i>  APPLICATION DE DECHIFFRAGE </h2>
+<div class="text-center ">
+  <form action="" method="POST">{% csrf_token %}
+      <input type="text" class="form-control m-auto mt-3 mb-3 w-50" name="search-field"  list="prod&art" required>
+        <datalist id="prod&art">
+          {% for product in products %}
+            <option value="{{product.name}}">{{product.dci}} </option>
+          {% endfor%}
+          {% for art in arts %}
+          <option>{{art.full_name}} </option>
+        {% endfor%}
+        </datalist>
+      <input type="submit" class="btn btn-primary mb-5" name="mob-search">
+  </form>
+</div>
+
+<!--Display search result-->
+<section class="m-5">
+  <div class="container">
+      
+      <div class=" row  align-items-baseline "> 
+        <div class="col-sm  py-2">
+          <div class="card border border-info" style="height: 60vh;">
+            <div class="card-header text-center bg-info">
+              <img src="{% static 'pill-svg.svg'%}" alt="pill" style="width: 20px;"> Médicament
+            </div>
+            <div class="card-body" style="overflow: auto;">
+              {% for prod in matches_prod %}
+              <ul>
+                  
+                  <li >{{prod|upper}} </li>
+                  
+              </ul>
+              {% endfor %}
+            </div>
+            
+          </div>
+        </div>
+        <div class="col-sm py-2">
+          <div class="card border border-warning" style="height: 60vh;">
+            <div class="card-header text-center bg-warning">
+              <i class="bi bi-layers"></i> DCI
+            </div>
+            <div class="card-body"style="overflow: auto;">
+              {% for dci in matches_dci %}
+              <ul >
+                  
+                  <li >{{dci|upper}} </li>
+                  
+              </ul>
+              {% endfor %}
+            </div>
+            
+          </div>
+        </div>
+        <div class="col-sm py-2">
+          <div class="card border border-success" style="height: 60vh;">
+            <div class="card-header text-center bg-success">
+              <i class="bi bi-pin-angle-fill"></i> Article
+            </div>
+            <div class="card-body" style="overflow: auto;">
+               {% for art in matches_art %}
+              <ul>
+                 
+                  <li >{{art|upper}} </li>
+                  
+              </ul>
+              {% endfor %}
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+{% endblock %}

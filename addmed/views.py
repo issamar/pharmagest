@@ -1,8 +1,9 @@
+import re
 from traceback import print_tb
 from urllib import request
 from django.shortcuts import render
 import itertools
-
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import AddmedForm, AddartForm
@@ -71,26 +72,52 @@ def AddMed(request):
 
 @login_required(login_url='main-page')
 def dech(request):
-     # pull all meds from db
+            # pull all meds from db
     products = Addmed.objects.all()
-   # products_list = list(itertools.chain(*products))
-    
+    # products_list = list(itertools.chain(*products))
     arts = Addart.objects.all()
-    
 
-    if request.method =='POST':
+
+
+    if request.user_agent.is_pc:
+        # pull all meds from db
+        products = Addmed.objects.all()
+    # products_list = list(itertools.chain(*products))
+        
+        arts = Addart.objects.all()
         prods =list(set( Addmed.objects.values_list('name', flat=True)))
         products_list = list(itertools.chain(*prods))
-        dciss = Addmed.objects.values_list('dci', flat=True)
-        dcis = list(set(dciss))
+        dciss = list(Addmed.objects.values_list('dci', flat=True))
+        clean_dcis = [a.strip(' ') for a in dciss]
         artss = Addart.objects.values_list('full_name', flat=True)
         arts_list = list(itertools.chain(*artss))
-       
-        item_to_search = request.POST.get('dech')
-        products_match = [ s for s in prods if item_to_search in s]
-        dcis_match = [ s for s in dcis if item_to_search in s]
-        arts_match = [ s for s in artss if item_to_search in s]
         
+        if request.method =='POST':
+            item_to_search = request.POST.get('dech')
+            products_match = [ s for s in prods if item_to_search in s]
+            dcis_match = [ s for s in set(clean_dcis) if item_to_search in s]
+            arts_match = [ s for s in artss if item_to_search in s]
+                
 
-        return render (request, 'dech.html',{'products':products, 'arts':arts, 'products_match': products_match, 'dcis_match' : dcis_match, 'arts_match' : arts_match})
+            return render (request, 'dech.html',{'products':products, 'arts':arts, 'products_match': products_match, 'dcis_match' : dcis_match, 'arts_match' : arts_match})
+
+
+
+    if request.user_agent.is_mobile:
+        if request.method =='POST':
+            mob_prod = request.POST.get('search-field').lower()
+            get_all_products = list(Addmed.objects.values_list('name', flat=True))
+            get_all_dcis = list(Addmed.objects.values_list('dci', flat=True))
+            clean_dcis = [a.strip(' ') for a in get_all_dcis]
+            print(clean_dcis, flush=True)
+            get_all_arts = list(Addart.objects.values_list('full_name', flat=True))
+
+            matches_prod = list(filter(lambda x:mob_prod in x, get_all_products))
+            matches_dci = list(filter(lambda y:mob_prod in y, set(clean_dcis)))
+            matches_art = list(filter(lambda z:mob_prod in z, get_all_arts))
+            
+            return render(request, 'dech-mob.html',{'products':products, 'arts':arts,'matches_prod':matches_prod,'matches_dci':matches_dci,'matches_art':matches_art})
+        return render(request, 'dech-mob.html',{'products':products, 'arts':arts,})
+            
+            
     return render (request, 'dech.html',{'products':products, 'arts':arts})

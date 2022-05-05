@@ -2,13 +2,13 @@
 {% load static %}
 {% block title %} Déchiffrage {% endblock %}
 
-
+{% load user_agents %}
 {% block content %}
-
+{% if request|is_pc %}
 <div class="container m-3">
     <h2 class="text-center bg-success  rounded-pill w-75 m-auto mt-3 p-3"> <i class="bi bi-file-medical-fill"></i>  APPLICATION DE DECHIFFRAGE </h2>
     <div class=" m-auto mt-4 w-50   " style="width: 60%;">
-        
+      
         <form action="" method="POST" >{% csrf_token %}
             <div class="text-center d-sm-flex justify-content-center d-50 " >
                 <input type="text" name="dech" list="all_products" class="form-control   m-auto" style="width:70%">
@@ -40,11 +40,11 @@
                   </div>
                   <div class="card-body" style="overflow: auto;">
                     {% for prod in products_match %}
-                  
+                    <ul>
                         
-                      {{prod|upper}} <br>
+                        <li >{{prod|upper}} </li>
                         
-                  
+                    </ul>
                     {% endfor %}
                   </div>
                   
@@ -57,11 +57,11 @@
                   </div>
                   <div class="card-body"style="overflow: auto;">
                     {% for dci in dcis_match %}
-                    
+                    <ul >
                         
-                        {{dci|upper}} <br>
+                        <li >{{dci|upper}} </li>
                         
-                    
+                    </ul>
                     {% endfor %}
                   </div>
                   
@@ -74,11 +74,11 @@
                   </div>
                   <div class="card-body" style="overflow: auto;">
                      {% for art in arts_match %}
-                    
+                    <ul>
                        
-                        {{art|upper}} <br>
+                        <li >{{art|upper}} </li>
                         
-                    
+                    </ul>
                     {% endfor %}
                   </div>
                   
@@ -90,4 +90,9 @@
 </div>
 
 
+
+
+
+
+{% endif%}
 {% endblock %}
