@@ -145,7 +145,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'pharmagest.22@gmail.com'
 EMAIL_HOST_PASSWORD = 'uantjcvvddlwmbyd'
-DEFAULT_FROM_EMAIL = 'Equipe de PharmaGest'
+DEFAULT_FROM_EMAIL = 'Equipe de OffGest'
 
 
 django_heroku.settings(locals())

@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from .forms import ContatForm
 import itertools 
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 # Create your views here.
+@login_required(login_url='main-page')
 def contact(request):
     
     form = ContatForm
