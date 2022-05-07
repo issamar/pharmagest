@@ -130,25 +130,25 @@
                         {% if elem.cmded == True %}
                           <div >
                             {% if elem.qtt == None %}
-                            <label title="Commandé" style="color: green;"> <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> {{elem.product}}</label>
+                            <label title="Commandé" style="color: green;"> <input type="checkbox" name="products" id="{{elem.pk}}" value="{{elem.product}}"> {{elem.product}} <sup> <a href="{% url 'edit-page' elem.pk %}">Editer</a></sup></label>
                             {% else %}
-                            <label title="Commandé" style="color: green;"> <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> {{elem.product}} {{elem.qtt}}</label>
+                            <label title="Commandé" style="color: green;"> <input type="checkbox" name="products" id="{{elem.pk}}" value="{{elem.product}}"> {{elem.product}} {{elem.qtt}} <sup> <a href="{% url 'edit-page' elem.pk %}">Editer</a></sup></label>
                             {% endif%}
                           </div>
                         {% elif elem.indisponible == True %}
                           <div >
                             {% if elem.qtt == None %}
-                            <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> {{elem.product}} </label>
+                            <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{elem.product}}"> {{elem.product}} <sup> <a href="{% url 'edit-page' elem.pk %}">Editer</a></sup></label>
                             {% else %}
-                            <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}"> {{elem.product}} ({{elem.qtt}})</label>
+                            <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{elem.product}}"> {{elem.product}} ({{elem.qtt}}) <sup> <a href="{% url 'edit-page' elem.pk %}">Editer</a></sup></label>
                             {% endif %}
                           </div>
                         {% else %}
                           <div >
                             {% if elem.qtt == None %}
-                              <label title="Pas encore commnadé" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}">  {{elem.product}} </label>
+                              <label title="Pas encore commnadé" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{elem.product}}">  {{elem.product}} <sup> <a href="{% url 'edit-page' elem.pk %}">Editer</a></sup></label>
                             {% else %}
-                            <label title="Pas encore commnadé" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{elem.product}}">  {{elem.product}} ({{elem.qtt}})</label>
+                            <label title="Pas encore commnadé" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{elem.product}}">  {{elem.product}} ({{elem.qtt}}) <sup> <a href="{% url 'edit-page' elem.pk %}">Editer</a></sup></label>
                             {% endif %}
                           </div>
                         {% endif %}
@@ -161,25 +161,25 @@
                       {% if oelem.cmded == True %}
                         <div >
                           {% if oelem.qtt == None %}
-                          <label title="commnadé avec succé" style="color: green;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}} </label>
+                          <label title="commnadé avec succé" style="color: green;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}} <sup> <a href="{% url 'edit-page' oelem.pk %}">Editer</a></sup></label>
                           {% else %}
-                          <label title="commnadé avec succé" style="color: green;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}} ({{oelem.qtt}})</label>
+                          <label title="commnadé avec succé" style="color: green;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}} ({{oelem.qtt}}) <sup> <a href="{% url 'edit-page' oelem.pk %}">Editer</a></sup></label>
                           {% endif %}
                         </div>
                       {% elif oelem.indisponible == True%}
                         <div >
                          {% if oelem.qtt == None %}
-                         <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}}  </label>
+                         <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}}  <sup> <a href="{% url 'edit-page' oelem.pk %}">Editer</a></sup></label>
                          {% else %}
-                         <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}} ({{oelem.qtt}})</label>
+                         <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}} ({{oelem.qtt}}) <sup> <a href="{% url 'edit-page' o.pk %}">Editer</a></sup></label>
                          {% endif %}
                         </div>
                       {% else %}
                         <div >
                           {% if oelem.qtt == None %}
-                          <label title="Pour Ord" style="color: blue;" ><input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}}</label>
+                          <label title="Pour Ord" style="color: blue;" ><input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}} <sup> <a href="{% url 'edit-page' oelem.pk %}">Editer</a></sup></label>
                           {% else %}
-                          <label title="Pour Ord" style="color: blue;" ><input type="checkbox" name="products" id="{{elem.id}}" value="{{oelem.product}}"> {{oelem.product}} ({{oelem.qtt}})</label>
+                          <label title="Pour Ord" style="color: blue;" ><input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}} ({{oelem.qtt}}) <sup> <a href="{% url 'edit-page' oelem.pk %}">Editer</a></sup></label>
                           {% endif%}
                         </div>
                       {% endif %}
@@ -200,25 +200,25 @@
                       {% if felem.cmded == True %}
                         <div >
                           {% if felem.qtt == None %}
-                          <label title="Commandé avec succé" style="color: green;"><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} </label>
+                          <label title="Commandé avec succé" style="color: green;"><input type="checkbox" name="products" id="{{flem.pk}}" value="{{felem.product}}"> {{felem.product}} <sup> <a href="{% url 'edit-page' felem.pk %}">Editer</a></sup></label>
                           {% else %}
-                          <label title="Commandé avec succé" style="color: green;"><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} ({{felem.qtt}})</label>
+                          <label title="Commandé avec succé" style="color: green;"><input type="checkbox" name="products" id="{{flem.pk}}" value="{{felem.product}}"> {{felem.product}} ({{felem.qtt}}) <sup> <a href="{% url 'edit-page' felem.pk %}">Editer</a></sup></label>
                           {% endif %}
                         </div>
                       {% elif felem.indisponible %}
                         <div >
                           {% if felem.qtt == None %}
-                          <label title="Introuvable" style="color: red;"><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} </label>
+                          <label title="Introuvable" style="color: red;"><input type="checkbox" name="products" id="{{flem.pk}}" value="{{felem.product}}"> {{felem.product}} <sup> <a href="{% url 'edit-page' felem.pk %}">Editer</a></sup></label>
                           {% else %}
-                          <label title="Introuvable" style="color: red;"><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} ({{felem.qtt}})</label>
+                          <label title="Introuvable" style="color: red;"><input type="checkbox" name="products" id="{{flem.pk}}" value="{{felem.product}}"> {{felem.product}} ({{felem.qtt}}) <sup> <a href="{% url 'edit-page' felem.pk %}">Editer</a></sup></label>
                           {% endif %}
                         </div>
                       {% else %}
                         <div >
                            {% if felem.qtt == None %}
-                           <label title="Pas encore commandé" ><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} </label>
+                           <label title="Pas encore commandé" ><input type="checkbox" name="products" id="{{flem.pk}}" value="{{felem.product}}"> {{felem.product}} <sup> <a href="{% url 'edit-page' felem.pk %}">Editer</a></sup></label>
                            {% else %}
-                           <label title="Pas encore commandé" ><input type="checkbox" name="products" id="{{flem.id}}" value="{{felem.product}}"> {{felem.product}} ({{felem.qtt}})</label>
+                           <label title="Pas encore commandé" ><input type="checkbox" name="products" id="{{flem.pk}}" value="{{felem.product}}"> {{felem.product}} ({{felem.qtt}}) <sup> <a href="{% url 'edit-page' felem.pk %}">Editer</a></sup></label>
                            {% endif%}
                         </div>
                       {% endif%}
@@ -229,17 +229,17 @@
                       {% if qelem.cmded == True %}
                         <div >
                           {% if qelem == None %}
-                          <label title=" Quota commandée" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> {{qelem.product}} <sup style="color: green;">Commondé</sup></label>
+                          <label title=" Quota commandée" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.pk}}" value="{{qelem.product}}"> {{qelem.product}} <sup style="color: green;">Commandé <a href="{% url 'edit-page' qelem.pk %}">Editer</a></sup></label>
                           {% else %}
-                          <label title=" Quota commandée" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> {{qelem.product}} ({{qelem.qtt}})<sup style="color: green;">Commondé</sup></label>
+                          <label title=" Quota commandée" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.pk}}" value="{{qelem.product}}"> {{qelem.product}} ({{qelem.qtt}})<sup style="color: green;">Commandé <a href="{% url 'edit-page' qelem.pk %}">Editer</a></sup></label>
                           {% endif %}
                         </div>
                       {% else %}
                       <div >
                           {% if qelem.qtt == None %}
-                          <label title="Produit quota" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> {{qelem.product}}<sup>Commondé</sup></label>
+                          <label title="Produit quota" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.pk}}" value="{{qelem.product}}"> {{qelem.product}}<sup>Commandé <a href="{% url 'edit-page' qelem.pk %}">Editer</a></sup></label>
                           {% else %}
-                          <label title="Produit quota" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.id}}" value="{{qelem.product}}"> {{qelem.product}} ({{qelem.qtt}})<sup>Commondé</sup></label>
+                          <label title="Produit quota" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.pk}}" value="{{qelem.product}}"> {{qelem.product}} ({{qelem.qtt}})<sup>Commandé <a href="{% url 'edit-page' qelem.pk %}">Editer</a></sup></label>
                           {% endif %}
                       </div>
                       {% endif %}

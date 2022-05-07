@@ -109,7 +109,6 @@ def dech(request):
             get_all_products = list(Addmed.objects.values_list('name', flat=True))
             get_all_dcis = list(Addmed.objects.values_list('dci', flat=True))
             clean_dcis = [a.strip(' ') for a in get_all_dcis]
-            print(clean_dcis, flush=True)
             get_all_arts = list(Addart.objects.values_list('full_name', flat=True))
 
             matches_prod = list(filter(lambda x:mob_prod in x, get_all_products))

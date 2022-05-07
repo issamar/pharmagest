@@ -1,11 +1,11 @@
 from http import client
 from django.contrib import messages
 import itertools 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from addmed.models import Addmed, Addart
 from .models import Mycmd
-from .forms import MycmdForm
+from .forms import EditItemForm, MycmdForm
 # Create your views here.
 @login_required(login_url='main-page')
 def CmdPage(request):
@@ -35,7 +35,7 @@ def CmdPage(request):
     products = Addmed.objects.all()
     arts = Addart.objects.all()
     # check validation & save the selected data
-    if request.method == 'POST':
+    if request.method == 'POST': 
         
         if 'register' in request.POST:
             
@@ -84,6 +84,15 @@ def CmdPage(request):
 
 
 
+
+def editItem(request,prod_id):
+    
+    get_product = Mycmd.objects.get(pk=prod_id)
+    form = EditItemForm(request.POST or None, instance=get_product)
+    if form.is_valid():
+        form.save()
+        return redirect('cmd-page')
+    return render(request, 'edit_item.html', {'form':form })
 
 
 
