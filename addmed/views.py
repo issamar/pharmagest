@@ -18,8 +18,8 @@ def AddMed(request):
     # pull all meds from db
     products = Addmed.objects.values_list('name', flat=True)
     products_list = list(itertools.chain(*products))
-    dciss = Addmed.objects.values_list('dci', flat=True)
-    dcis = list(set(dciss))
+    dciss = list(Addmed.objects.values_list('dci', flat=True))
+    dcis = set([a.strip(' ') for a in dciss])
 
     if request.method == 'POST':
         
