@@ -54,7 +54,7 @@ def RegisterPage(request):
 
 class verification(View):
     def get(self,request,uidb64, token):
-        return redirect('login')
+        return redirect('main-page')
 
 
 def MainPage(request):
