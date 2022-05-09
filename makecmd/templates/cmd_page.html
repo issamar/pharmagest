@@ -215,7 +215,7 @@
                          {% if oelem.qtt == None %}
                          <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}}  <sup> <a href="{% url 'edit-page' oelem.pk %}">Editer</a></sup></label>
                          {% else %}
-                         <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}} ({{oelem.qtt}}) <sup> <a href="{% url 'edit-page' o.pk %}">Editer</a></sup></label>
+                         <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}} ({{oelem.qtt}}) <sup> <a href="{% url 'edit-page' oelem.pk %}">Editer</a></sup></label>
                          {% endif %}
                         </div>
                       {% else %}

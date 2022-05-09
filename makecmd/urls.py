@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.CmdPage, name= 'cmd-page'),
-    path('/edit/<int:prod_id>', views.editItem, name= 'edit-page'),
+    path('edit/<int:prod_id>', views.editItem, name= 'edit-page'),
 ]

@@ -88,6 +88,7 @@ def CmdPage(request):
 def editItem(request,prod_id):
     
     get_product = Mycmd.objects.get(pk=prod_id)
+    
     form = EditItemForm(request.POST or None, instance=get_product)
     if form.is_valid():
         form.save()
