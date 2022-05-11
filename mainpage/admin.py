@@ -16,3 +16,4 @@ admin.site.register(User, CustomizeUserAdmin)
 
 
 admin.site.register(UserPayementStat)
+

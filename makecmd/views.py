@@ -6,20 +6,26 @@ from django.contrib.auth.decorators import login_required
 from addmed.models import Addmed, Addart
 from .models import Mycmd
 from .forms import EditItemForm, MycmdForm
+from datetime import datetime, timezone
+from django.contrib.auth.models import User
+from mainpage.decorators import loged_users, allowed_users
+from .decoators import Time_to_pay
 # Create your views here.
 @login_required(login_url='main-page')
+@Time_to_pay
 def CmdPage(request):
+    
     form = MycmdForm
     current_user = request.user.id
     current_username = request.user
-    
-    
-    # pull data from db based on categories
+        
+        
+        # pull data from db based on categories
     My_cmd_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False, client= current_user).order_by('product')
     My_cmd_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock' ,received=False, client= current_user).order_by('product')
     My_cmd_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord' ,received=False, client= current_user).order_by('product')
     My_cmd_q = Mycmd.objects.filter(prod_stat= 'Quota' ,received=False, client= current_user).order_by('product')
-    #count data 
+        #count data 
     count_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False, client= current_user).count()
     count_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord',received=False, client= current_user).count()
     count_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock',received=False, client= current_user).count()
@@ -27,18 +33,18 @@ def CmdPage(request):
     ste_ord = count_ord + count_ste
     stf_q = count_q + count_stf
 
-    # get all the meds and arts to the datalist options
-    #meds = Mycmd.objects.values_list('product')
-    #for med in meds:
-        #meds_list = list(med)
-    
+        # get all the meds and arts to the datalist options
+        #meds = Mycmd.objects.values_list('product')
+        #for med in meds:
+            #meds_list = list(med)
+        
     products = Addmed.objects.all()
     arts = Addart.objects.all()
     # check validation & save the selected data
     if request.method == 'POST': 
-        
-        if 'register' in request.POST:
             
+        if 'register' in request.POST:
+                
             all_prod_cmd = Mycmd.objects.values_list('product').filter(received = False, client = current_user)
             new_product = request.POST['product']
             all_prod_cmd_list = list(itertools.chain(*all_prod_cmd))
@@ -69,7 +75,7 @@ def CmdPage(request):
         My_cmd_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock' ,received=False, client= current_user).order_by('product')
         My_cmd_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord' ,received=False, client= current_user).order_by('product')
         My_cmd_q = Mycmd.objects.filter(prod_stat= 'Quota' ,received=False, client= current_user).order_by('product')
-        #count data 
+            #count data 
         count_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False, client= current_user).count()
         count_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord',received=False, client= current_user).count()
         count_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock',received=False, client= current_user).count()
@@ -77,14 +83,15 @@ def CmdPage(request):
         ste_ord = count_ord + count_ste
         stf_q = count_q + count_stf
 
- 
+
     return render(request,'cmd_page.html',{'current_username':current_username, 'form' : form, 'products': products, 'arts' : arts, 'My_cmd_ste' : My_cmd_ste, 'My_cmd_stf': My_cmd_stf, 'My_cmd_ord' : My_cmd_ord, 'My_cmd_q': My_cmd_q,
                     'ste_ord': ste_ord, 'stf_q' : stf_q , 'current_user'  : current_user})
+   
 
 
 
-
-
+@login_required(login_url='main-page')
+@Time_to_pay
 def editItem(request,prod_id):
     
     get_product = Mycmd.objects.get(pk=prod_id)
