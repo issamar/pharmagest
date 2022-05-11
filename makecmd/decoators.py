@@ -1,7 +1,4 @@
-from asyncio.windows_events import NULL
-import http
-from tokenize import group
-from django.http import HttpResponse
+
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from datetime import datetime, timezone
