@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from django.contrib.auth.models import User
 from mainpage.decorators import loged_users, allowed_users
 from .decoators import Time_to_pay
-# Create your views here.
+# Create your views here. 
 @login_required(login_url='main-page')
 @Time_to_pay
 def CmdPage(request):
@@ -64,6 +64,7 @@ def CmdPage(request):
             for item in selected_prods:
                 obj = Mycmd.objects.get(product=item, received = False, client = current_user)
                 obj.received = True
+                obj.received_0 = True
                 obj.save()
         elif 'indis' in request.POST:
             selected_prods = request.POST.getlist('products')

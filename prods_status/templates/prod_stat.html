@@ -1,0 +1,161 @@
+{% extends 'cmd_page.html' %}
+{% block title %} Statistiques {% endblock%}
+
+{% block content %}
+<script>
+    $(document).ready(function(){
+        const ctx2 = document.getElementById('myChart');
+        
+        const myCharts = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: [{% for product in qs %} '{{product.product}}', {% endfor %}],
+                datasets: [{
+                    data: [{% for product in qs %} {{product.count}}, {% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Les produits les plus commandés(50)'
+                    }
+        }
+            }
+        });
+        const ctx = document.getElementById('myChart2');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% for product in indis_prod %} '{{product.product}}', {% endfor %}],
+                datasets: [{
+                    data: [{% for product in indis_prod %} {{product.count2}}, {% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+            title: {
+                display: true,
+                text: 'Les medicaments indiponibles (50)'
+            }
+        }
+                
+            }
+        });
+        const ctx3 = document.getElementById('myChart3');
+        const myChart3 = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: [{% for x in receiv %} '{{x.product}} ',{% endfor %}],
+                datasets: [{
+                    label: 'Commandés',
+                    data: [{% for x in receiv %} {{x.count_prod}} ,{% endfor %}],
+                    backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+
+                    ],
+                    borderColor: [
+                    'rgba(54, 162, 235, 1)',
+
+                    ],
+                    borderWidth: 1,
+                    
+                },
+                {
+                    label: 'recus',
+                    data: [{% for x in receiv %} {{x.count_rec}} ,{% endfor %}],
+                    backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+
+                    ],
+                    borderColor: [
+                    'rgba(255, 99, 132, 1)',
+
+                    ],
+                    borderWidth: 1
+                }
+                    
+            ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+            title: {
+                display: true,
+                text: 'Le status des top 50 produits commandés'
+            }
+        }
+                
+            }
+        });
+ 
+        
+        
+
+
+    
+    });
+</script>
+
+
+<div style="width:100% ; height: 30% ; background-color: white;margin: auto; margin-top: 20px;">
+    <canvas id="myChart2" width="400" height="150">fuytuytuygf</canvas>
+</div>
+<div style="width:100% ; height: 30% ; background-color: white;">
+    <canvas id="myChart" width="400" height="150"></canvas>
+</div>
+<div style="width:100% ; height: 30% ; background-color: white;">
+    <canvas id="myChart3" width="400" height="150"></canvas>
+</div>
+
+
+
+{% endblock %}

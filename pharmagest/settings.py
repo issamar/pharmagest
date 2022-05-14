@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'makecmd',
     'addmed',
     'contact',
+    'prods_status',
 ]
 # Cache backend is optional, but recommended to speed up user agent parsing
 CACHES = {

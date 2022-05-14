@@ -23,4 +23,5 @@ urlpatterns = [
     path('cmd',include('makecmd.urls')),
     path('addmed/', include('addmed.urls')),
     path('contact', include('contact.urls')),
+    path('stat', include('prods_status.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

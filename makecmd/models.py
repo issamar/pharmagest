@@ -8,6 +8,7 @@ class Mycmd(models.Model):
     qtt = models.IntegerField('qtt', null=True, blank=True, default=0)
     cmded = models.BooleanField('cmded', default=False)
     received = models.BooleanField('received', default=False)
+    received_0 = models.IntegerField('received_0', default=0)
     indisponible = models.BooleanField('indisponible', default=False)
     client = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
