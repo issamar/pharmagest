@@ -1,5 +1,6 @@
 from dataclasses import fields
 from datetime import datetime
+from django.http import HttpResponse
 from multiprocessing import Condition
 from sys import flags
 from time import time
@@ -46,7 +47,7 @@ def RegisterPage(request):
                 link = reverse('activate', kwargs={'uidb64':uidb64, 'token': token_generator.make_token(user)})
                 activation_url = 'http://' + domaine+link
                 email_subject = 'Activez votre compte'
-                email_body = 'Cher(e) ' + user.username + "\n Vous avez enregistré sur le site de OffGest Pour continuer l'enregistrement veuillez cliquey sur le lien ci-dessous\n"  + activation_url
+                email_body = 'Cher(e) ' + user.username + "\n Vous avez enregistré sur le site de OffGest Pour continuer l'enregistrement veuillez cliquer sur le lien ci-dessous\n"  + activation_url
                 rec_email = 'pharmagest.22@gmail.com'
                 email = EmailMessage(
                     email_subject,
@@ -56,7 +57,7 @@ def RegisterPage(request):
                 )
                 email.send(fail_silently = False)  
                 messages.success(request,'Vous avez enregistré avec succés')
-                return redirect('main-page')
+                return HttpResponse('Veuillez verifier votre boite mail')
             else:
                 messages.warning(request,'Email deja utilisé')
     return render(request,'register.html', {'form' : form,})

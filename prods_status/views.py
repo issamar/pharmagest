@@ -4,6 +4,8 @@ import itertools
 from multiprocessing import context
 from operator import methodcaller
 from unittest import result
+from django.contrib.auth.decorators import login_required
+from makecmd.decoators import Time_to_pay
 import re
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -13,7 +15,8 @@ from addmed.models import Addmed
 import json
 # Create your views here.
 
-
+@login_required(login_url='main-page')
+@Time_to_pay
 def ProductStat(request):
     qs = StatTable.objects.values('product').annotate(count = Count('product')).annotate(count_cmd = Sum('cmded')).order_by('-count_cmd')[:50]
     indis_prod = StatTable.objects.filter(indisponible__gt=0).values('product').annotate(count2=Sum('indisponible')).order_by('-count2')[:50]
