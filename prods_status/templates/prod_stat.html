@@ -11,7 +11,7 @@
             data: {
                 labels: [{% for product in qs %} '{{product.product}}', {% endfor %}],
                 datasets: [{
-                    data: [{% for product in qs %} {{product.count}}, {% endfor %}],
+                    data: [{% for product in qs %} {{product.count_cmd}}, {% endfor %}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -93,7 +93,7 @@
                 labels: [{% for x in receiv %} '{{x.product}} ',{% endfor %}],
                 datasets: [{
                     label: 'Commandés',
-                    data: [{% for x in receiv %} {{x.count_prod}} ,{% endfor %}],
+                    data: [{% for x in receiv %} {{x.count_cmd}} ,{% endfor %}],
                     backgroundColor: [
                     'rgba(54, 162, 235, 0.2)',
 
@@ -117,6 +117,19 @@
 
                     ],
                     borderWidth: 1
+                },
+                {
+                    label: 'Repture',
+                    data: [{% for x in receiv %} {{x.count_indis}} ,{% endfor %}],
+                    backgroundColor: [
+                    'rgba(255, 206, 86, 0.2)',
+
+                    ],
+                    borderColor: [
+                    'rgba(255, 206, 86, 1)',
+
+                    ],
+                    borderWidth: 1
                 }
                     
             ],
@@ -136,6 +149,70 @@
                 
             }
         });
+        const ctx4 = document.getElementById('myChart4');
+        const myChart4 = new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: [{% for y in items_list %} '{{y.product}} ',{% endfor %}],
+                datasets: [{
+                    label: 'Commandés',
+                    data: [{% for y in items_list %} {{y.cmded}} ,{% endfor %}],
+                    backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+
+                    ],
+                    borderColor: [
+                    'rgba(54, 162, 235, 1)',
+
+                    ],
+                    borderWidth: 1,
+                    
+                },
+                {
+                    label: 'recus',
+                    data: [{% for y in items_list %} {{y.received}} ,{% endfor %}],
+                    backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+
+                    ],
+                    borderColor: [
+                    'rgba(255, 99, 132, 1)',
+
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Rupture',
+                    data: [{% for y in items_list %} {{y.indisponible}} ,{% endfor %}],
+                    backgroundColor: [
+                    'rgba(255, 206, 86, 0.2)',
+
+                    ],
+                    borderColor: [
+                    'rgba(255, 206, 86, 1)',
+
+                    ],
+                    borderWidth: 1,
+                    
+                },
+                    
+            ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+            title: {
+                display: true,
+                text: 'Personnalisé'
+            }
+        }
+                
+            }
+        });
  
         
         
@@ -146,6 +223,33 @@
 </script>
 
 
+<div  style="height: 70vh;" class="container">
+    <h2 class="text-center">Personaliser le graphe</h2>
+    
+        
+
+        
+    
+    <div class="d-flex">
+        <div class=" my-3  " style="width:30% ;" >
+            
+            <form action="" method="POST">{% csrf_token %}
+                <div id="prod_list" style="overflow-x: auto; border: 1px solid cyan; height: 50vh; border-radius: 10px;width: 100%;background-color: lightgray;margin-top: 10px; ">
+                        {% for item in products %}
+                        <label title="{{item.product}}" ><input type="checkbox" name='products' id="{{item.pk}}" value="{{item.product}}" style="margin-left: 5px;"> {{item.product}}</label>
+                        {% endfor %}
+                    </div>
+                    <button type="submit"  class="btn btn-success mt-3 " name="valider" >Valider</button>
+                    
+                </div>
+            </form>
+
+        <div style="width: 65%; height:50vh">
+            <canvas id="myChart4" style="width: 100%; background-color: white;"  height="400"></canvas>
+        </div>
+    </div>
+    
+</div>
 <div style="width:100% ; height: 30% ; background-color: white;margin: auto; margin-top: 20px;">
     <canvas id="myChart2" width="400" height="150">fuytuytuygf</canvas>
 </div>
@@ -155,6 +259,10 @@
 <div style="width:100% ; height: 30% ; background-color: white;">
     <canvas id="myChart3" width="400" height="150"></canvas>
 </div>
+
+
+
+
 
 
 

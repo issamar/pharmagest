@@ -4,12 +4,13 @@ import itertools
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from addmed.models import Addmed, Addart
-from .models import Mycmd
+from .models import Mycmd, StatTable
 from .forms import EditItemForm, MycmdForm
 from datetime import datetime, timezone
 from django.contrib.auth.models import User
 from mainpage.decorators import loged_users, allowed_users
 from .decoators import Time_to_pay
+from django .db.models import F
 # Create your views here. 
 @login_required(login_url='main-page')
 @Time_to_pay
@@ -66,12 +67,49 @@ def CmdPage(request):
                 obj.received = True
                 obj.received_0 = True
                 obj.save()
+                if obj.cmded == True and obj.received == True:
+                    get_all_deleted_item = list(StatTable.objects.values_list('product', flat=True))
+                    
+                    if item not in get_all_deleted_item:
+                        new_item=StatTable.objects.create(product = item)
+                        new_item.cmded = 1
+                        new_item.received = 1
+                        new_item.indisponible = 0
+                        new_item.save()
+                        Mycmd.objects.get(product=item, received = True, client = current_user, deleted=False).delete()
+                    elif item in get_all_deleted_item:
+                        exiting_item = StatTable.objects.filter(product = item).update(cmded = F('cmded') + 1, received=F('received') + 1)
+                        Mycmd.objects.get(product=item, received = True, client = current_user, deleted=False).delete()
         elif 'indis' in request.POST:
             selected_prods = request.POST.getlist('products')
             for item in selected_prods:
                 obj = Mycmd.objects.get(product=item, received = False, client = current_user)
                 obj.indisponible = True
                 obj.save()
+        elif 'supp' in request.POST:
+            selected_prods = request.POST.getlist('products')
+            for item in selected_prods:
+                obj = (Mycmd.objects.get(product=item, client = current_user))
+                obj.deleted = True
+                obj.save()
+                if obj.indisponible == True and obj.deleted == True:
+                    get_all_deleted_item = list(StatTable.objects.values_list('product', flat=True))
+                    
+                    if item not in get_all_deleted_item:
+                        new_item=StatTable.objects.create(product = item)
+                        new_item.cmded = 1
+                        new_item.received = 0
+                        new_item.indisponible = 1
+                        new_item.save()
+                        Mycmd.objects.get(product=item, received = False, client = current_user, deleted=True).delete()
+                    elif item in get_all_deleted_item:
+                        print(item, flush=True)
+                        exiting_item = StatTable.objects.filter(product = item).update(cmded = F('cmded') + 1, indisponible = F('indisponible') + 1)
+                        Mycmd.objects.get(product=item, received = False, client = current_user, deleted=True).delete()
+                elif obj.indisponible == False and obj.deleted == True:
+                    Mycmd.objects.get(product=item, client = current_user).delete()
+
+
         My_cmd_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False, client= current_user).order_by('product')
         My_cmd_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock' ,received=False, client= current_user).order_by('product')
         My_cmd_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord' ,received=False, client= current_user).order_by('product')
