@@ -41,7 +41,7 @@ class AddmedForm(forms.ModelForm):
 class AddartForm(forms.ModelForm):
     class Meta:
         model = Addart
-        fields = '__all__'
+        fields =[ 'full_name']
         labels = {
             'full_name' : ''
         }

@@ -45,7 +45,7 @@ def CmdPage(request):
     if request.method == 'POST': 
             
         if 'register' in request.POST:
-                
+            print(request.POST, flush=True)
             all_prod_cmd = Mycmd.objects.values_list('product').filter(received = False, client = current_user)
             new_product = request.POST['product']
             all_prod_cmd_list = list(itertools.chain(*all_prod_cmd))
@@ -67,7 +67,7 @@ def CmdPage(request):
                 obj.received = True
                 obj.received_0 = True
                 obj.save()
-                if obj.cmded == True and obj.received == True:
+                if obj.received == True:
                     get_all_deleted_item = list(StatTable.objects.values_list('product', flat=True))
                     
                     if item not in get_all_deleted_item:

@@ -13,10 +13,13 @@ class MycmdForm(forms.ModelForm):
         fields = ['product', 'prod_stat', 'qtt','cmded', 'received', 'indisponible', 'client']
         widgets = {
             'client' : forms.Select(attrs={
-                'type' : 'hidden',
+            'type' : 'hidden',
+            
                 
                 
-            })
+            }),
+
+            
         }
 
          
