@@ -157,7 +157,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'pharmagest.22@gmail.com'
-EMAIL_HOST_PASSWORD = 'uantjcvvddlwmbyd'
+EMAIL_HOST_PASSWORD = 'xofohbdjsraakitz'
 DEFAULT_FROM_EMAIL = 'Equipe de OffGest'
 
 
