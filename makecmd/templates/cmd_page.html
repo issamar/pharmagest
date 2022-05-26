@@ -67,6 +67,20 @@
           background-color:#369958 ; 
           border-radius:10px;
         }
+        .med{
+          background-color: rgba(46, 242, 121,.3);
+          border: 1px solid rgba(46, 242, 121,1);
+          border-radius: 10px;
+          margin: 5px;
+          padding: 5px;
+        }
+        .art{
+          background-color: rgba(242, 196, 46,.3);
+          border: 1px solid rgba(242, 196, 46,1);
+          border-radius: 10px;
+          margin: 5px;
+          padding: 5px;
+        }
     </style>
     <title> {% block title %}Mes manquants{% endblock%} </title>
   </head>
@@ -190,19 +204,19 @@
                     <div class="card-header bg-danger"><h5 class="card-title" > <i class="bi bi-bag-x-fill"></i> Stock Epuisé & Ord  ({{ste_ord}})</h5></div>
                     <div class="card-body " style="text-align: left; overflow: auto;">
                      
-                     
+                    
                       <!-- Dispaly stock 0 with nusted if -->
                       {% for elem in My_cmd_ste %}
                         {% if elem.cmded == True %}
-                          <div >
+                          <div {% if elem.product|first in "M" %} class="med" {% elif elem.product|first in "A"%} class="art" {% endif %}> 
                             {% if elem.qtt == None %}
                             <label title="Commandé" style="color: green;"> <input type="checkbox" name="products" id="{{elem.pk}}" value="{{elem.product}}"> {{elem.product}} <sup> <a href="{% url 'edit-page' elem.pk %}">Editer</a></sup></label>
-                            {% else %}
+                             {% else %}
                             <label title="Commandé" style="color: green;"> <input type="checkbox" name="products" id="{{elem.pk}}" value="{{elem.product}}"> {{elem.product}} {{elem.qtt}} <sup> <a href="{% url 'edit-page' elem.pk %}">Editer</a></sup></label>
                             {% endif%}
                           </div>
                         {% elif elem.indisponible == True %}
-                          <div >
+                          <div {% if elem.product|first in "M" %} class="med" {% elif elem.product|first in "A"%} class="art" {% endif %}>
                             {% if elem.qtt == None %}
                             <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{elem.product}}"> {{elem.product}} <sup> <a href="{% url 'edit-page' elem.pk %}">Editer</a></sup></label>
                             {% else %}
@@ -210,7 +224,7 @@
                             {% endif %}
                           </div>
                         {% else %}
-                          <div >
+                          <div {% if elem.product|first in "M" %} class="med" {% elif elem.product|first in "A"%} class="art"{% endif %}>
                             {% if elem.qtt == None %}
                               <label title="Pas encore commnadé" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{elem.product}}">  {{elem.product}} <sup> <a href="{% url 'edit-page' elem.pk %}">Editer</a></sup></label>
                             {% else %}
@@ -225,7 +239,7 @@
                       <!-- display Pour ord with nusted if-->
                       {% for oelem in My_cmd_ord%}
                       {% if oelem.cmded == True %}
-                        <div >
+                        <div {% if oelem.product|first in "M" %} class="med" {% elif oelem.product|first in "A"%} class="art"{% endif %}>
                           {% if oelem.qtt == None %}
                           <label title="commnadé avec succé" style="color: green;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}} <sup> <a href="{% url 'edit-page' oelem.pk %}">Editer</a></sup></label>
                           {% else %}
@@ -233,7 +247,7 @@
                           {% endif %}
                         </div>
                       {% elif oelem.indisponible == True%}
-                        <div >
+                        <div {% if oelem.product|first in "M" %} class="med" {% elif oelem.product|first in "A"%} class="art"{% endif %}>
                          {% if oelem.qtt == None %}
                          <label title="Introuvable" style="color: red;" > <input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}}  <sup> <a href="{% url 'edit-page' oelem.pk %}">Editer</a></sup></label>
                          {% else %}
@@ -241,7 +255,7 @@
                          {% endif %}
                         </div>
                       {% else %}
-                        <div >
+                        <div {% if oelem.product|first in "M" %} class="med" {% elif oelem.product|first in "A"%} class="art"{% endif %}>
                           {% if oelem.qtt == None %}
                           <label title="Pour Ord" style="color: blue;" ><input type="checkbox" name="products" id="{{elem.pk}}" value="{{oelem.product}}"> {{oelem.product}} <sup> <a href="{% url 'edit-page' oelem.pk %}">Editer</a></sup></label>
                           {% else %}
@@ -264,7 +278,7 @@
                       <!-- display stock low with nusted if-->
                       {% for felem in My_cmd_stf %}
                       {% if felem.cmded == True %}
-                        <div >
+                        <div {% if felem.product|first in "M" %} class="med" {% elif felem.product|first in "A"%} class="art"{% endif %}>
                           {% if felem.qtt == None %}
                           <label title="Commandé avec succé" style="color: green;"><input type="checkbox" name="products" id="{{flem.pk}}" value="{{felem.product}}"> {{felem.product}} <sup> <a href="{% url 'edit-page' felem.pk %}">Editer</a></sup></label>
                           {% else %}
@@ -272,7 +286,7 @@
                           {% endif %}
                         </div>
                       {% elif felem.indisponible %}
-                        <div >
+                        <div {% if felem.product|first in "M" %} class="med" {% elif felem.product|first in "A"%} class="art"{% endif %}>
                           {% if felem.qtt == None %}
                           <label title="Introuvable" style="color: red;"><input type="checkbox" name="products" id="{{flem.pk}}" value="{{felem.product}}"> {{felem.product}} <sup> <a href="{% url 'edit-page' felem.pk %}">Editer</a></sup></label>
                           {% else %}
@@ -280,7 +294,7 @@
                           {% endif %}
                         </div>
                       {% else %}
-                        <div >
+                        <div {% if felem.product|first in "M" %} class="med" {% elif felem.product|first in "A"%} class="art"{% endif %}>
                            {% if felem.qtt == None %}
                            <label title="Pas encore commandé" ><input type="checkbox" name="products" id="{{flem.pk}}" value="{{felem.product}}"> {{felem.product}} <sup> <a href="{% url 'edit-page' felem.pk %}">Editer</a></sup></label>
                            {% else %}
@@ -293,7 +307,7 @@
                       <!-- dispalay quota with nusted if-->
                       {% for qelem in My_cmd_q %}
                       {% if qelem.cmded == True %}
-                        <div >
+                        <div {% if qelem.product|first in "M" %} class="med" {% elif qelem.product|first in "A"%} class="art"{% endif %}>
                           {% if qelem == None %}
                           <label title=" Quota commandée" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.pk}}" value="{{qelem.product}}"> {{qelem.product}} <sup style="color: green;">Commandé <a href="{% url 'edit-page' qelem.pk %}">Editer</a></sup></label>
                           {% else %}
@@ -301,7 +315,7 @@
                           {% endif %}
                         </div>
                       {% else %}
-                      <div >
+                      <div {% if qelem.product|first in "M" %} class="med" {% elif qelem.product|first in "A"%} class="art"{% endif %}>
                           {% if qelem.qtt == None %}
                           <label title="Produit quota" style="color: blue;" ><input type="checkbox" name='products' id="{{qlem.pk}}" value="{{qelem.product}}"> {{qelem.product}}<sup>Commandé <a href="{% url 'edit-page' qelem.pk %}">Editer</a></sup></label>
                           {% else %}
