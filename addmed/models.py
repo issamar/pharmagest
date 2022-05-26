@@ -10,7 +10,11 @@ class Addmed(models.Model):
     tag = models.CharField('tag', max_length=1, default="M")
 
     def __str__(self):
-        return self.name + ' ' + self.dosage + ' ' + self.cond 
+        return self.name + ' ' + self.dosage + ' ' + self.cond
+
+    def save(self, *args, **kwargs):
+        self.name = self.name.lower()
+        return super(Addmed, self).save(*args, **kwargs) 
 
 
 class Addart(models.Model):
@@ -18,6 +22,9 @@ class Addart(models.Model):
     tag = models.CharField('tag', max_length=1, default="A")
     def __str__(self):
         return self.full_name
+    def save(self, *args, **kwargs):
+        self.full_name = self.full_name.lower()
+        return super(Addart, self).save(*args, **kwargs) 
    
 
 
