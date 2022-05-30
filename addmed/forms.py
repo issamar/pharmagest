@@ -22,7 +22,8 @@ class AddmedForm(forms.ModelForm):
                 'class': 'form-control text-uppercase autofocus', 
                 'placeholder': 'Nom de produit et la forme galenique',
                 'autocomplete' : 'autocomplete',
-                'autofocus' : 'autofocus'
+                'autofocus' : 'autofocus',
+                'list' : 'meds'
                 }),
             'dci' : forms.TextInput(attrs={
                 'class' : 'form-control text-uppercase mt-3', 

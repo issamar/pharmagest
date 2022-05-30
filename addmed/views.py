@@ -1,5 +1,7 @@
+from ast import Add
 import imp
 import re
+from tabnanny import check
 from traceback import print_tb
 from urllib import request
 from django.shortcuts import render
@@ -20,16 +22,17 @@ def AddMed(request):
     art_form = AddartForm()
     # pull all meds from db
     products = Addmed.objects.values_list('name', flat=True)
-    products_list = list(itertools.chain(*products))
+    products_list = list(products)
     dciss = list(Addmed.objects.values_list('dci', flat=True))
     dcis = set([a.strip(' ') for a in dciss])
+    arts = list(Addart.objects.values_list('full_name', flat=True))
+    meds = Addmed.objects.all()
 
     if request.method == 'POST':
         
         if 'med_btn' in request.POST:
             new_name = request.POST['name'].lower()
             form = AddmedForm(request.POST)
-           
             if new_name not in products_list:
                 if form.is_valid():
                     
@@ -37,22 +40,22 @@ def AddMed(request):
                     form = AddmedForm
                     messages.success(request, 'Produit Enregistrer avec succé')
             
+
             else:
                 inserted_dosage = request.POST['dosage'].lower()
                 inserted_cond = request.POST['cond'].lower()
-                product_index = products_list.index(new_name)
-                db_prod_dosage = products_list[product_index + 2]
-                db_prod_cond = products_list[product_index + 3]
-                
-                if inserted_dosage != db_prod_dosage or inserted_cond != db_prod_cond:
-                   
-                    form.save()
-                    form = AddmedForm
+                check_for_new_med = Addmed.objects.filter(name = new_name,dosage = inserted_dosage, cond = inserted_cond)
+                print(check_for_new_med, flush=True)
+                if not check_for_new_med:
+                    if form.is_valid():
+                        form.save()
+                        form = AddmedForm
+                        messages.success(request, 'Produit Enregistrer avec succé')
                 else:
-                    messages.error(request,'Ce produit existe deja')
                     
+                    messages.error(request,'Ce produit existe deja')
                     form = AddmedForm
-        
+
         elif 'art_btn' in request.POST:
             new_name = request.POST['full_name'].lower()
             
@@ -71,7 +74,7 @@ def AddMed(request):
 
         
         
-    return render(request, 'addmed/add_med.html',{'form' : form, 'dcis' : dcis, 'art_form' : art_form, })
+    return render(request, 'addmed/add_med.html',{'form' : form, 'dcis' : dcis, 'art_form' : art_form, 'arts':arts, 'products_list':products_list})
 
 @login_required(login_url='main-page')
 @Time_to_pay
@@ -109,7 +112,7 @@ def dech(request):
 
     if request.user_agent.is_mobile:
         if request.method =='POST':
-            mob_prod = request.POST.get('search-field').lower()
+            mob_prod = request.POST.get('search-field').lower() 
             get_all_products = list(Addmed.objects.values_list('name', flat=True))
             get_all_dcis = list(Addmed.objects.values_list('dci', flat=True))
             clean_dcis = [a.strip(' ') for a in get_all_dcis]

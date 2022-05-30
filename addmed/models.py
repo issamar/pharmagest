@@ -14,6 +14,9 @@ class Addmed(models.Model):
 
     def save(self, *args, **kwargs):
         self.name = self.name.lower()
+        self.dci = self.dci.lower()
+        self.dosage = self.dosage.lower()
+        self.cond = self.cond.lower()
         return super(Addmed, self).save(*args, **kwargs) 
 
 

@@ -69,6 +69,11 @@
             <div class="accordion-body">
               <form action=""  method="POST" class="text-center">{% csrf_token %}
                 {{form.name}}
+                <datalist id="meds">
+                  {% for product in products_list %}
+                    <option>{{product}}</option>
+                  {% endfor %}
+                </datalist>
                 {{form.dci}}
                 <datalist id="product">
                     {% for dci in dcis %}
@@ -93,6 +98,11 @@
             <div class="accordion-body">
               <form class="input-group" method="POST" >{% csrf_token %}
                 {{art_form}}
+                <datalist id="arts">
+                  {% for art in arts %}
+                  <option>{{art}}</option>
+                  {% endfor %}
+                </datalist>
                 <button class="btn btn-primary btn3d w-50 m-auto my-3" name="art_btn">Enregistrer</button>
               </form>
             </div>
