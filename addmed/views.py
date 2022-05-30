@@ -22,11 +22,11 @@ def AddMed(request):
     art_form = AddartForm()
     # pull all meds from db
     products = Addmed.objects.values_list('name', flat=True)
-    products_list = list(products)
+    products_list = set(list(products))
     dciss = list(Addmed.objects.values_list('dci', flat=True))
     dcis = set([a.strip(' ') for a in dciss])
     arts = list(Addart.objects.values_list('full_name', flat=True))
-    meds = Addmed.objects.all()
+    
 
     if request.method == 'POST':
         
