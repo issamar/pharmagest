@@ -6,9 +6,34 @@
 <div style="height:80vh;">
   <div class="w-50 border border-success m-auto rounded-3 mt-5" >
     <h1 class="text-center m-3">Valider votre choix</h1>
+    <div class="accordion accordion-flush " id="accordionFlushExample">
+        <div class="accordion-item m-3 ">
+          <h2 class="accordion-header " id="flush-headingOne">
+            <button class="accordion-button collapsed bg-warning" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              Les informations de payement
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                CCP:   <br>
+                Nom et Prénom : <br>
+                Adress: <br>
+            </div>
+          </div>
+        </div>
     <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
         <div class="container">
             <div class=" w-50 m-auto">
+
+
+
+  
+
+
+
+
+
+
                 <input class="form-control m-3" value='{{request.user}}' readonly name="user_name">
                 {{form.selected_offer}}
                 {{form.proof_of_payement}}

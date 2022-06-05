@@ -45,7 +45,7 @@ def AddMed(request):
                 inserted_dosage = request.POST['dosage'].lower()
                 inserted_cond = request.POST['cond'].lower()
                 check_for_new_med = Addmed.objects.filter(name = new_name,dosage = inserted_dosage, cond = inserted_cond)
-                print(check_for_new_med, flush=True)
+               
                 if not check_for_new_med:
                     if form.is_valid():
                         form.save()
