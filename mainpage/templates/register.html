@@ -13,7 +13,11 @@
   <body>
     <h1 class=" lead display-4 text-center">Enregistrez-vous</h1>
     <div class="container text-center">
+     
       <div class="d-block border border-info rounded w-50 m-auto mt-5 ">
+      <div style="padding: 10px; background-color:rgb(222, 184, 58) ;">
+        N.B: Il est préférable de ne pas utiliser votre informations réel sauf pour email puisque il est necessaire pour la vérification
+      </div>
         <form action="" method="POST" class="p-4 ">{% csrf_token %}
           {{form.username}}
           {{form.email}}
