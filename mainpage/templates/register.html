@@ -16,7 +16,7 @@
      
       <div class="d-block border border-info rounded w-50 m-auto mt-5 ">
       <div style="padding: 10px; background-color:rgb(222, 184, 58) ;">
-        N.B: Il est préférable de ne pas utiliser votre informations réel sauf pour email puisque il est necessaire pour la vérification
+        N.B: Il est préférable de ne pas utiliser vos informations réel sauf pour l'émail puisque il est necessaire pour la vérification
       </div>
         <form action="" method="POST" class="p-4 ">{% csrf_token %}
           {{form.username}}
@@ -24,7 +24,7 @@
           {{form.password1}}
           {{form.password2}}
           <div class="bg-warning">{{form.errors}}</div>
-        <input type="submit" value="Créee un compte" class="btn btn-success">
+        <input type="submit" value="Créer un compte" class="btn btn-success">
         <div >
         {% if messages %}
           {% for message in messages %}
