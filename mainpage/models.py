@@ -23,7 +23,7 @@ class Account(models.Model):
 
 class UserPayementStat(models.Model):
     user_name = models.CharField('user_name', max_length=50, null=True)
-    selected_offer = models.CharField('offer', max_length=30, choices=(('Basic','Basic'),('Avancé','Avancé'),('Professionnel', 'Professionnel')))
+    selected_offer = models.CharField('offer', max_length=30, choices=(('Basic','Basic'),))
     proof_of_payement = models.ImageField(null=True, upload_to = "images/" )
     def __str__(self):
         return self.user_name
