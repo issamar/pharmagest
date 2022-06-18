@@ -1,5 +1,6 @@
 from dataclasses import fields
 from datetime import datetime
+import profile
 from django.http import HttpResponse
 from multiprocessing import Condition
 from sys import flags
@@ -105,10 +106,14 @@ def logout_user(request):
 def UserProofView(request):
     form = UserProofForm
     if request.method =='POST':
-        
-        form = UserProofForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('main-page')
+        proof_name = request.POST['user_name']
+        all_proofs = UserPayementStat.objects.values_list('user_name', flat=True)
+        if proof_name in all_proofs:
+            return HttpResponse("Vous avez deja valider votre payment pour changer vos informations deja envoyées veuillez contacter l'admin par onglet 'contact' ")
+        else:
+            form = UserProofForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return redirect('main-page')
     return render (request, 'user_prof.html',{'form' : form})
 
