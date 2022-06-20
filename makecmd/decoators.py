@@ -13,7 +13,7 @@ def Time_to_pay(view_func):
         date_now = datetime.now(timezone.utc)
         user_proof = list(UserPayementStat.objects.values_list('user_name', flat=True))
         day_in_site = (date_now.day - signup_date.day)
-        print(day_in_site, flush=True)
+       
         if day_in_site > 7:
             if str(userrname) in user_proof:
 
@@ -24,6 +24,6 @@ def Time_to_pay(view_func):
                     return view_func(request, *args, **kwargs)
             else:
                 return redirect('user_proof')
-        if day_in_site <=1:
+        elif day_in_site <=7:
             return view_func(request, *args, **kwargs)
     return wrapper_func

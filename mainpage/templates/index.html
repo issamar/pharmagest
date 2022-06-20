@@ -38,11 +38,12 @@
                     
                     <div class="d-sm-flex">
                       <div class="text-center py-3 mx-2">
-                        <a href="{% url 'cmd-page'%}"><button class="btn btn-primary">Accéder a vos manquants </button></a>
+                        <a href="{% url 'cmd-page'%}"><button class="btn btn-primary">Mes manquants </button></a>
                     </div>
                     <div class="text-center py-3 mx-2">
                       <a href="{% url 'logout'%}"><button class="btn btn-danger">Déconnecter </button></a>
                   </div>
+
                     </div>
                     
                     
@@ -157,9 +158,9 @@
               </div>
             </div>
           </section>
-
+          <div class="text-center">Vous avez rencontré un problème ? <a href="{% url 'contact' %}">Reporter</a> </div>
       <!--Inscription-->
-      {
+      
       <section class="py-5 " id="insc" style="visibility: hidden;" >
         <div class="container">
           <h2 class="text-center display-5">Inscrivez Maintenant</h2>
