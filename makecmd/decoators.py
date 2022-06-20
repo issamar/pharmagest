@@ -14,7 +14,7 @@ def Time_to_pay(view_func):
         user_proof = list(UserPayementStat.objects.values_list('user_name', flat=True))
         day_in_site = (date_now.day - signup_date.day)
         print(day_in_site, flush=True)
-        if day_in_site > 1:
+        if day_in_site > 7:
             if str(userrname) in user_proof:
 
                 img_proof = UserPayementStat.objects.get(user_name = userrname)
