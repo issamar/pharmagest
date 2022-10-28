@@ -1,0 +1,70 @@
+{% extends 'cmd_page.html' %}
+{% load static %}
+{% block title %} Information du malade  {% endblock %}
+
+{% block extra_head %}
+<style>
+    body{
+       background-image: url('{% static 'img/main_bg2.png' %}');
+    }
+    h1{
+        width: max-content;
+        border: 1px solid red;
+        border-radius: 15px;
+        background-color: white;
+        padding: 10px;
+        margin-top: -30px;
+    }
+    .container {
+        width: max-content;
+        margin-top: 100px;
+        border-radius: 15px;
+        border: solid 1px black;
+        padding: 15px
+    }
+    .inpt{
+        margin-top: 15px ;
+        text-transform: uppercase;
+    }
+    .inpt a{
+        text-decoration: none;
+        color: white;
+    }
+    #pa_age{
+        width: 20%;
+    }
+    #pa_dob{
+        width: 30%;
+    }
+    #ebtn{
+        justify-content: center;
+        margin-left: 40%;
+    }
+</style>
+
+{% endblock %}
+
+     
+
+{% block content %}
+    <div class="container">
+        <h1>Ajouter un nouveau patient</h1>
+        <form method="POST">{% csrf_token %}
+        
+            {{patient_form.patient_name}}
+            {{patient_form.patient_dob}}
+            {{patient_form.patient_age}}
+            
+            <input type="submit"  id="ebtn" value="Enregistrer" name="valid" class="inpt btn btn-success">
+            <button  name="retour" id="back" value="Retour " class="inpt btn btn-danger"><a href="{% url 'add-P'%} " >Retour</a> </button>
+        </form>
+    </div>
+<script>
+function calcAge(){
+    var yob = new Date(document.getElementById('pa_dob').value).getFullYear()
+    var currentyear = new Date().getFullYear()
+    document.getElementById('pa_age').value = currentyear - yob
+
+}
+</script>
+{% endblock %}

@@ -1,0 +1,418 @@
+{% extends 'cmd_page.html' %}
+{% load static%}
+
+{% block title %} Lab {% endblock %}
+
+{% block extra_head %} 
+<style>
+        body{
+       background-image: url('{% static 'img/main_bg2.png' %}');
+    }
+    .info-container{
+        border: 1px solid green;
+        border-radius: 15px;
+        margin: 25px 0;
+        padding: 10px;
+        
+        
+    }
+
+    .patient-info{
+        width: 50%;
+        display: flex;
+    }
+
+    .patient-info a {
+        margin:auto 10px;
+        
+    }
+    #pn{
+        margin: 10px;
+        width: 50%;
+    }
+    .params-container{
+        margin: 10px;
+        height: 300px;
+        border: 1px solid black;
+        border-radius: 10px;
+        display: flex;
+        padding: 15px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+    .additional-info{
+        display: flex;
+        flex-grow: inherit;
+    }
+    .additional-info input{
+        margin: 10px;
+    }
+    .additional-info label{
+        
+        height: 60px;
+        width: 500px;
+        font-size: 9px;
+        font-weight: bold;
+        padding: 15px;
+       
+    }
+    .additional-info input{
+        width: 100x;
+        
+    }
+    .param_name_container{
+      
+        width: 90%;
+        height: fit-content;
+        padding: 15px;
+
+    }
+    input[type="checkbox"]
+{
+    vertical-align:middle;
+}
+    .param_lbl{
+        background-color: #FF731D;
+        margin: 3px;
+        border-radius: 15px;
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+    }
+    .analyse{
+        display: flex;
+        
+    }
+    .counter{
+        border-radius: 15px;
+        width: 100px;
+        background-color: #E26868;
+        text-align: center;
+        height: 30px;
+        padding: 5px;
+        margin-top: 15px;
+        font-weight: bold;
+        
+    }
+    #total{
+        background-color: #fe4a49;
+        width: 100px;
+    }
+    #money{
+        background-color: #2ab7ca;
+        width: 100px;
+    }
+    #rest{
+        background-color: #fed766;
+        width: 100px;
+    }
+    .listParam{
+        display: flex;
+        width: 100%;
+        
+    }
+    .hid{
+        visibility: hidden;
+    }
+    .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="info-container">
+            <form method="POST">{% csrf_token %}
+                <div class="patient-info">
+                    <input type="text" class="form-control text-uppercase" placeholder="Choisir le patient" list="patients" name="p_name" id="pt" autocomplete="off" autofocus required>
+                    <datalist id="patients">
+                      
+                      {% for patient in patients %}
+                      <option >{{patient.patient_name|upper}}: {{patient.patient_age}}  {{patient.patient_dob}} </option>
+                      {% endfor %}
+        
+                    </datalist>
+                        <a href='{% url "add-p-info"%} ' >(+)</a>
+                    </div>
+                    <div class="analyse">
+                        <input type="text" class="form-control text-uppercase" placeholder="Choisir les paramétres" list="parameters" id="pn" autocomplete="off" autofocus onchange="addParameter()">
+                        <datalist id="parameters">
+                        
+        
+                        </datalist>
+                        <label class="counter" id="counter"></label>
+                    </div>
+                    <div class="params-container" id="par-cont">
+                        <div class="param_name_container" id="param_name_cont" name="parameterlist">
+
+                        </div>
+
+                            
+                    </div>
+                    <div class="additional-info">
+                        <input type="number" class="form-control" name="price" id="total" placeholder="Total"> 
+                        <input type="number" placeholder="Payement" name="pay" class="form-control" id="money" oninput="calcRest()" required>
+                        <input type="number" class="form-control" name="rest" id="rest" placeholder="Le reste"> 
+                        <label>
+                          <input type="checkbox" name="hba1c" id="hba1c" onchange="calcHba1c()" >  HBA1C Gratuit
+                        </label>
+                        
+                        <input type="text" name="info" placeholder="Informations Supplémentaire" class="form-control">
+                        <input type="submit" value="Valider" class="btn btn-success">
+                        <input type="submit" value="Effacer" class="btn btn-primary" onclick="deleteAll()">
+                    </div>
+                    <input type="text" name="selected_parameters" id="inputohid" class="hid">
+                    <input type="number" name="selected_parameters_price_lab" id="input2ohid" class="hid">
+            </form>
+        </div>
+
+        <div class="table-container">
+
+
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Patient Info</th>
+                        <th>Paramétres Réalisés</th>
+                        <th> Prix</th>
+                        <th> Payement</th>
+                        <th>Le Reste</th>
+                        <th>Informations</th>
+                        <th>Reçu ?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lab in all_labs %}
+                        <tr>
+                            <td>{{lab.dt}} </td>
+
+                            {%if lab.hba1c == True %}
+                                <td style="background-color: #abb0c2; border-radius: 15px; font-weight: bold;">{{lab.p_name}} </td>
+                            {% else %}
+                                <td style="font-weight: bold">{{lab.p_name}} </td>
+                            {% endif %}
+                            
+                            <td>{{lab.params}} </td>
+                            <td>{{lab.price}} </td>
+                            <td>{{lab.pay}} </td>
+                            <td> <a href="{% url 'edit-rest' lab.id %} "> {{lab.rest}}</a>  </td>
+                            <td>{{lab.info}} </td>
+                            {% if lab.delevered == True %}
+                            <td style="background-color: green; border-radius: 15px;">Livré </td>
+                            {% else %}
+                            <td style="background-color: #f07f62; border-radius: 15px;"> Non Livré </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+
+                    <!-- and so on... -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+<script>
+var parameters = [
+{% for parameter in parameters %}
+    {'Param_name':'{{parameter.Param_name}}',
+    'lab_price':{{parameter.lab_price}},
+    'ph_price':{{parameter.ph_price}}},
+
+{% endfor %}
+]
+
+function displayParamList(){
+    var paramInput = document.getElementById('parameters')
+    for(i=0; i<=parameters.length; i++){
+        var option = document.createElement('option')
+        option.value = parameters[i].Param_name
+        option.textContent = parameters[i].Param_name
+        paramInput.appendChild(option)
+    };
+}
+
+
+ 
+var insertParams = [];
+
+function addParameter(){
+    var param = document.getElementById('pn').value 
+    for(i=0;i<parameters.length;i++){
+        if(parameters[i].Param_name == param){
+            var currentParam = parameters[i]
+            insertParams.push(currentParam)
+            
+            } 
+            
+        }
+    displaySelectedParam(currentParam)
+    inserTohid()
+    }
+
+function inserTohid(){
+   
+    lisTohid = []
+    for(y=0;y<insertParams.length;y++){
+        lisTohid.push(insertParams[y].Param_name)
+        document.getElementById('inputohid').value = lisTohid
+    }
+    
+}
+
+function displaySelectedParam(currentParam){
+    var paramContainer = document.getElementById('param_name_cont')
+    var paramDiv = document.createElement('div')
+    paramDiv.className  = 'listParam'
+    
+    var total = document.getElementById('total')
+    var phPrice = currentParam.ph_price
+    var labPrice = currentParam.lab_price
+    var paramLabl = document.createElement('label')
+    var paramPriceLabl = document.createElement('label')
+    paramLabl.value = currentParam.Param_name
+    paramPriceLabl.value = phPrice
+    paramLabl.textContent = currentParam.Param_name
+    paramLabl.className = "param_lbl"
+    paramPriceLabl.textContent = phPrice
+    paramPriceLabl.className = "param_lbl"
+    paramDiv.appendChild(paramLabl)
+    paramDiv.appendChild(paramPriceLabl)
+    paramContainer.appendChild(paramDiv)
+
+    document.getElementById('pn').value  = ''
+    counter()
+    calcSum()
+    calcRest()
+}
+      
+    
+
+
+
+function calculateTheRest(){
+    var total = document.getElementById('total').value
+    var money = document.getElementById('money').value
+    document.getElementById('rest').value = total - money
+
+}
+
+
+
+document.getElementById('param_name_cont').addEventListener("click", function(event){
+    if(event.target.className === "param_lbl"){
+       event.target.parentNode.remove()
+       var selectedToDelete = event.target.textContent
+        var paramNameList = []
+        for(i=0;i<insertParams.length;i++){
+            paramNameList.push(insertParams[i].Param_name)
+        }
+        var paramIndex = paramNameList.indexOf(selectedToDelete)
+        insertParams.splice(paramIndex,1)
+        counter()
+        calcSum()
+        calcRest()
+        inserTohid()
+    }
+})
+
+
+function counter(){
+    var counterLbl = document.getElementById('counter')
+    counterLbl.value = insertParams.length
+    counterLbl.textContent = insertParams.length
+}
+function calcSum(){
+    
+    var paramPriceList = []
+    var paramLabPriceList = []
+    for(i=0;i<insertParams.length;i++){
+        paramPriceList.push(insertParams[i].ph_price)
+        paramLabPriceList.push(insertParams[i].lab_price)
+    }
+    totalSum = (paramPriceList.reduce((a,b) => a + b, 0))+100
+    totalLabSum = (paramLabPriceList.reduce((a,b) => a + b, 0))+100
+    document.getElementById('total').value = totalSum
+    document.getElementById('input2ohid').value = totalLabSum
+
+}
+
+function calcRest(){
+    var pay = document.getElementById('money').value
+    
+    var total =  document.getElementById('total').value
+    var hba1c = document.getElementById('hba1c')
+    if (hba1c.checked == true){
+        document.getElementById('rest').value = total- 700 - pay
+    }
+    if (hba1c.checked == false){
+        document.getElementById('rest').value = total - pay
+    }
+
+    
+}
+function calcHba1c(){
+    var ifChecked = document.getElementById('hba1c').checked
+    if (ifChecked === true){
+        var rest = document.getElementById('rest').value 
+        document.getElementById('rest').value = rest - 700
+    }
+    if (ifChecked === false){
+        var rest = document.getElementById('rest').value 
+        document.getElementById('rest').value = parseInt(rest) + 700
+    }
+
+    
+}
+
+function deleteAll(){
+    var elemToDelete = document.querySelectorAll('.listParam')
+    console.log(elemToDelete)
+    elemToDelete.forEach(elem => {
+        elem.remove()
+        insertParams = []
+        counter()
+        calcSum()
+        calcRest()
+        inserTohid()
+        document.getElementById('total').value = 0
+        document.getElementById('money').value = 0
+        document.getElementById('rest').value = 0
+        document.getElementById('hba1c').checked = false
+        
+    })
+}
+
+document.onload = displayParamList();
+</script>
+{% endblock %}

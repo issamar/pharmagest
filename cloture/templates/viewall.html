@@ -1,0 +1,88 @@
+{% extends 'cmd_page.html'%}
+{% load static %}
+{% block title%} Afficher Tout {% endblock%}
+{% block extra_head %}
+<style>
+    body{
+       background-image: url('{% static 'img/main_bg2.png' %}');
+    }
+    .styled-table {
+    border-collapse: collapse;
+    margin: auto;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    max-width: fit-content;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    
+}
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+tr:hover{
+    background-color: #009879;
+}
+</style>
+
+{% endblock %}
+{% block content %}
+
+
+
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>D&T</th>
+            <th>User</th>
+            <th>Arg Entrée</th>
+            <th>Arg Sortie</th>
+            <th>Recette</th>
+            <th>Ecart</th>
+            <th>Details</th>
+            <th>Logiciel</th>
+            <th>Vrai Recette</th>
+            <th>Ecart Calculé</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for data in getdata %}
+        <tr>
+            <td style="width: 20%;">{{data.creation_date}}</td>
+            <td style="width: 10%;">{{data.username}}</td>
+            <td style="width: 10%;">{{data.start_money}}</td>
+            <td style="width: 10%;">{{data.closure_money}}</td>
+            <td style="width: 10%;">{{data.closure_paper}}</td>
+            <td style="width: 10%;">{{data.money}}</td>
+            <td style="width: 00%;">{{data.details}}</td>
+            <td style="width: 10%;"><a href='{% url "edit-all" data.id %}'>{{data.wasfa}}</a></td>
+            <td style="width: 10%;">{{data.real_money}}</td>
+            <td style="width: 10%;">{{data.ecart}}</td>
+        </tr>
+    {% endfor %}
+
+        <!-- and so on... -->
+    </tbody>
+</table>
+
+
+{% endblock %}

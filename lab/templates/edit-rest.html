@@ -1,0 +1,63 @@
+{% extends 'cmd_page.html' %}
+{% load static %}
+
+{% block title %} Editer Le reste {% endblock %}
+
+{% block extra_head %}
+    <style>
+        body{
+       background-image: url('{% static 'img/main_bg2.png' %}');
+    }
+        .sub-cont{
+            margin: 20px;
+            padding: 15px;
+            border: 1px solid green;
+            border-radius: 15px;
+            
+            text-align: center;
+        }
+        .sub-cont input{
+            margin: 10px;
+            
+        }
+        
+    </style>
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="container">
+    <div class="sub-cont">
+        <form method="POST">{% csrf_token %}
+            <label for=""> Prix Des Analyses</label>
+            <input type="number" name = "prix" value="{{getPatient.price}}" class="form-control" readonly  id="price">
+            <input type="number" name = "payement" value="{{getPatient.pay}}" class="form-control"  readonly id="pay">
+            <input type="number" placeholder="Nouveau payment" class="form-control" id="sold" onchange="calcRest()">
+            <input type="number" name = "reste" value="{{getPatient.rest}}" class="form-control"  readonly  id="rest">
+            <label class="btn btn-primary">
+                <input type="checkbox" name="recu"  > Livrer au patient 
+            </label> <br>
+            <input type="submit"  value="Valider" class="btn btn-success" name="valid">
+            <input type="submit"  value="Annuler" class="btn btn-danger" name="valid">
+            <input type="submit"  value="Supprimé?" class="btn btn-warning" name="valid">
+        </form>
+    </div>
+</div>
+<script>
+
+function calcRest(){
+    var prix = document.getElementById('price').value
+    var payement = document.getElementById('pay').value
+    var rest = document.getElementById('rest').value
+    var newSold = document.getElementById('sold').value
+    console.log(prix, payement, newSold)
+    var newPay= parseInt(payement) + parseInt(newSold)
+    document.getElementById('pay').value = newPay
+    document.getElementById('rest').value =  parseInt(rest) - parseInt(newSold) 
+    
+    
+}
+</script>
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'cmd_page.html' %}
+{% load static %}
+
+{% block title %} Conventions {% endblock %}
+
+{% block extra_head %}
+    <style>
+        body{
+       background-image: url('{% static 'img/main_bg2.png' %}');
+    }
+    .info-container{
+        border: 1px solid #0352fc;
+        border-radius: 15px;
+        padding: 20PX;
+        margin: 15px auto;
+        
+        width: 80%;
+        
+    }
+    .upper-div{
+        display: flex;
+    }
+    .upper-div .inpt{
+        margin: 10px;
+    }
+    .lower-div{
+        display: flex;
+    }
+    .lower-div .inpt{
+        margin: 10px;
+    }
+    .btn{
+        margin: 10px;
+    }
+    .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+    </style>
+{% endblock %}
+
+
+{% block content %}
+
+    <form method="POST">{% csrf_token %}
+        <div class="info-container">
+            <div class="upper-div">
+                {{form.pay_ctr}}
+                {{form.n_brd}}
+                {{form.dt_clo}}
+                {{form.n_ord}}
+            </div>
+            <div class="lower-div">
+                {{form.m_brd}}
+                {{form.dt_depot}}
+                <input type="submit" value="Envoyer" class="btn btn-success">
+            </div>
+        </div>
+    </form>
+    <div class="table-container">
+        
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Centre</th>
+                    <th>N° Brd</th>
+                    <th>D.Cloture</th>
+                    <th>N° Ord</th>
+                    <th>M.Brd</th>
+                    <th>D.Depot</th>
+                    <th>D.Journal</th>
+                    <th>N° Ord</th>
+                    <th>M.Journal</th>
+                    <th>D.Pay</th>
+                    <th>M.Ecart</th>
+                    <th>O.Ecart</th>
+                    <th>Payé?</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for brd in all_brd %}
+                     <tr>
+                        <td>{{brd.pay_ctr}} </td>
+                        <td><a href="{% url 'edit-brd' brd.id %} ">{{brd.n_brd}}</a> </td>
+                        <td>{{brd.dt_clo}} </td>
+                        <td>{{brd.n_ord}} </td>
+                        <td>{{brd.m_brd}} </td>
+                        <td>{{brd.dt_depot}} </td>
+                        <td>{{brd.dt_jrl}} </td>
+                        <td>{{brd.n_ord_jrl}} </td>
+                        <td>{{brd.m_jrl}} </td>
+                        <td>{{brd.dt_pay}} </td>
+                        <td>{{brd.defr}} </td>
+                        <td>{{brd.def_o}} </td>
+                        <td>{{brd.payement}} </td>
+                        
+                    </tr>
+
+                {% endfor %}
+                
+ 
+                <!-- and so on... -->
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

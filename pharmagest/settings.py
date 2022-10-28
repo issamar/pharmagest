@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&@wr*rn0snnneo$f)swj&e0%kt9lr=*n$6^7u1=)rg!15igsfj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -44,8 +44,9 @@ INSTALLED_APPS = [
     'django_user_agents',
     'makecmd',
     'addmed',
-    'contact',
-    'prods_status',
+    'cloture',
+    'lab',
+    'conventions',
 ]
 # Cache backend is optional, but recommended to speed up user agent parsing
 CACHES = {

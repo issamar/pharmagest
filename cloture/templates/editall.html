@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edit Closing Data</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+	<style>
+		
+		label{
+			float: left;
+			font-weight: bold;
+		}
+		.input{
+			font-size: 24px;
+			border-radius: 20px;
+			outline: none;
+			border-color:#5efc03; 
+			padding: 5px;
+			margin: 10px;
+		}
+		#id_username{
+			font-size: 24px;
+			border-radius: 20px;
+			outline: none;
+			padding: 5px;
+			margin: 10px;
+			background-color: orange;
+		}
+		#send{
+			width: 150px
+		}
+		
+		#send:hover{
+			background-color: red;
+		}
+		#container{
+			display: flex;
+			flex-wrap: wrap;
+			margin: auto;
+		}
+		#subcontainer1{
+			border:solid black 5px;
+			width: 45%;
+			border-radius: 15px;
+			margin: auto;
+
+
+		}
+
+		form{
+			
+			padding: 20px;
+		}
+		h1{
+			text-align: center;
+			text-transform: uppercase;
+			color: #6f8066;
+		}
+		.btn{
+			border-radius: 15px;
+
+		}
+		.btn:hover{
+			background-color: green;
+		}
+		#edit{
+			margin-top: 140px;
+		}
+		#btncancel{
+			text-decoration: none;
+			margin-left: 50px;
+
+		}
+		a{
+			text-decoration: none;
+			color: white;
+		}
+		#subbtn{
+			margin-left: 7%
+		}
+	</style>
+</head>
+<body>
+<div id="container">
+	<div id="subcontainer1">
+		<h1> Editer La Cloture</h1>
+		<form method="POST" action="">{% csrf_token %}
+			{{form.as_p}}
+			<div  class="container" id="subbtn">
+				<input type="submit" name="edit " value="Edit" id="send" class="btn btn-danger">
+				<button class="btn btn-success" id="btncancel"><a href="{% url 'view-all' %}">Cancel</a></button>
+			</div>
+		</form>
+	</div>
+</div>
+</body>
+</html>
