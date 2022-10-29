@@ -4,9 +4,11 @@ from urllib import request
 from django.shortcuts import render, redirect
 from .forms import ClosureForm, PartielClosureForm
 from .models import Closure
+from django.contrib.auth.decorators import login_required
+from mainpage.decorators import allowed_users
 # Create your views here.
 
-
+@login_required(login_url='main-page')
 def closure(request):
 	
 	if request.method== "POST":
@@ -29,7 +31,7 @@ def closure(request):
 
 
 
-
+@login_required(login_url='main-page')
 def editclo(request, pk):
 	idid = Closure.objects.get(id=pk)
 	form = PartielClosureForm(instance=idid)
@@ -45,7 +47,8 @@ def editclo(request, pk):
 		'form' : form
 	}
 	return render(request,'editclo.html', context)
-
+@login_required(login_url='main-page')
+@allowed_users(allowed_roles=['admin'])
 def viewall(request):
 	get_data = Closure.objects.all().order_by('-id')[:60]
 	context = {
@@ -53,7 +56,8 @@ def viewall(request):
 	}
 	return render(request,'viewall.html', context)
 
-
+@login_required(login_url='main-page')
+@allowed_users(allowed_roles=['admin'])
 def editall(request, pk):
 	row = Closure.objects.get(id=pk)
 	form = ClosureForm(instance=row)

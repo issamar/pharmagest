@@ -1,17 +1,21 @@
-import imp
+import imp 
 import re
 from django.shortcuts import render, redirect
 from .models import Bordereaux
 from .forms import BordereauxForm, EditBrdFrom
 from django.contrib import messages
 import datetime
+from django.contrib.auth.decorators import login_required
+from mainpage.decorators import allowed_users
 # Create your views here.
 
-
+@login_required(login_url='main-page')
+@allowed_users(allowed_roles=['admin'])
 def brd(request):
 	form = BordereauxForm(request.POST or None)
 	all_brd = Bordereaux.objects.all().order_by('-dt_clo')[:15]
 	if request.method == 'POST':
+		print(request.POST, flush=True)
 		form = BordereauxForm(request.POST)
 		if form.is_valid():
 			form.save()
@@ -20,7 +24,8 @@ def brd(request):
 	return render(request,'brd.html',{'form': form,'all_brd': all_brd})
 
 
-
+@login_required(login_url='main-page')
+@allowed_users(allowed_roles=['admin'])
 def editBrd(request, pk):
 	selected_brd = Bordereaux.objects.get(id = pk)
 	form = EditBrdFrom(instance=selected_brd)
@@ -44,3 +49,20 @@ def editBrd(request, pk):
 			form = EditBrdFrom()
 			return redirect('brd')
 	return render(request,"edit-brd.html",{'form': form})
+
+@login_required(login_url='main-page')
+@allowed_users(allowed_roles=['admin'])
+def filterBrd(request):
+	print(request.POST, flush=True)
+	if request.method == 'POST':
+		centre = request.POST['centre']
+		period = request.POST['time']
+		pay = request.POST['payement']
+		if pay == 'Payé':
+			pay = True
+		if pay == 'Non Payé':
+			pay = False
+		data = Bordereaux.objects.filter(pay_ctr = centre).filter(payement = pay)
+		print(type(centre),period,pay, flush=True)
+		return render(request, 'brd.html',{'data': data})
+	return render(request, 'brd.html',{})

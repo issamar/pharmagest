@@ -3,13 +3,13 @@ from dataclasses import fields
 from webbrowser import get
 from django.shortcuts import render, redirect
 from django.core import serializers
-
+from django.contrib.auth.decorators import login_required
 import lab
 
 from .forms import  PatientInfo
 from .models import Patients, Parameters, Labo
 # Create your views here.
-
+@login_required(login_url='main-page')
 def addP(request):
     all_labs = Labo.objects.all()
     patients = Patients.objects.all()
@@ -37,7 +37,7 @@ def addP(request):
 
 
 
-
+@login_required(login_url='main-page')
 def addpinfo(request):
     patient_form = PatientInfo()
     if request.method == "POST":
@@ -49,7 +49,7 @@ def addpinfo(request):
 
     return render(request, 'addpinfo.html', {'patient_form' : patient_form})
 
-
+@login_required(login_url='main-page')
 def editrest(request, pk):
     getPatient = Labo.objects.get(id = pk)
     if request.method == "POST":

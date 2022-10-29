@@ -1,6 +1,7 @@
+import re
 from tokenize import group
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 
 
@@ -23,6 +24,6 @@ def allowed_users(allowed_roles=[]):
             if group in allowed_roles:
                 return view_func(request, *args, **kwargs)
             else:
-                return HttpResponse('nooooooooooo')
+                return render(request, 'unautorized.html',{})
         return wrapper_func
     return decorator

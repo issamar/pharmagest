@@ -64,6 +64,15 @@
     font-weight: bold;
     color: #009879;
 }
+.filter form{
+    display: flex;
+    justify-content: center;
+    
+}
+.filter form input{
+    margin: 10px;
+    width: 150px;
+}
     </style>
 {% endblock %}
 
@@ -86,7 +95,31 @@
         </div>
     </form>
     <div class="table-container">
-        
+        <div class="filter">
+            <form method="POST" action="{% url 'filter-brd'%} ">{% csrf_token %}
+                <input list="centre" name="centre" id="cp" placeholder="Centre Payeur" class="form-control">
+                <datalist id="centre">
+                    <option value="CNAS">
+                    <option value="CASNOS">
+                    <option value="Tous">
+                </datalist>
+                <input list="period" name="time" id="timelap" placeholder="Choisir la periode" class="form-control">
+                <datalist id="period">
+                    <option value="Ce mois">
+                    <option value="Ce trimestre">
+                    <option value="Cette année">
+                    <option value="Tous" default>
+                </datalist>
+                <input list="payement" name="payement" id="pay" placeholder="Etat de payement" class="form-control" required>
+                <datalist id="payement">
+                    <option value="Payé">
+                    <option value="Non Payé">
+                    <option value="Tous">
+    
+                </datalist>
+                <input type="submit" value="Filtrer" class="btn btn-primary" >
+            </form>
+        </div>
         <table class="styled-table">
             <thead>
                 <tr>
@@ -102,13 +135,29 @@
                     <th>D.Pay</th>
                     <th>M.Ecart</th>
                     <th>O.Ecart</th>
-                    <th>Payé?</th>
+                    
                     
                 </tr>
             </thead>
             <tbody>
                 {% for brd in all_brd %}
-                     <tr>
+                    {% if brd.payement == True %}
+                        <tr style="background-color: #86d182">
+                            <td>{{brd.pay_ctr}} </td>
+                            <td><a href="{% url 'edit-brd' brd.id %} ">{{brd.n_brd}}</a> </td>
+                            <td>{{brd.dt_clo}} </td>
+                            <td>{{brd.n_ord}} </td>
+                            <td>{{brd.m_brd}} </td>
+                            <td>{{brd.dt_depot}} </td>
+                            <td>{{brd.dt_jrl}} </td>
+                            <td>{{brd.n_ord_jrl}} </td>
+                            <td>{{brd.m_jrl}} </td>
+                            <td>{{brd.dt_pay}} </td>
+                            <td>{{brd.defr}} </td>
+                            <td>{{brd.def_o}} </td>
+                        </tr>
+                    {% else %}
+                    <tr >
                         <td>{{brd.pay_ctr}} </td>
                         <td><a href="{% url 'edit-brd' brd.id %} ">{{brd.n_brd}}</a> </td>
                         <td>{{brd.dt_clo}} </td>
@@ -121,16 +170,53 @@
                         <td>{{brd.dt_pay}} </td>
                         <td>{{brd.defr}} </td>
                         <td>{{brd.def_o}} </td>
-                        <td>{{brd.payement}} </td>
-                        
                     </tr>
-
+                    {% endif %}
+                {% endfor %}
+                
+ 
+                <!-- and so on... -->
+            </tbody>
+            <tbody>
+                {% for dt in data %}
+                    {% if dt.payement == True %}
+                        <tr style="background-color: #86d182">
+                            <td>{{dt.pay_ctr}} </td>
+                            <td><a href="{% url 'edit-brd' dt.id %} ">{{dt.n_brd}}</a> </td>
+                            <td>{{dt.dt_clo}} </td>
+                            <td>{{dt.n_ord}} </td>
+                            <td>{{dt.m_brd}} </td>
+                            <td>{{dt.dt_depot}} </td>
+                            <td>{{dt.dt_jrl}} </td>
+                            <td>{{dt.n_ord_jrl}} </td>
+                            <td>{{dt.m_jrl}} </td>
+                            <td>{{dt.dt_pay}} </td>
+                            <td>{{dt.defr}} </td>
+                            <td>{{dt.def_o}} </td>
+                        </tr>
+                    {% else %}
+                    <tr >
+                        <td>{{dt.pay_ctr}} </td>
+                        <td><a href="{% url 'edit-brd' dt.id %} ">{{dt.n_brd}}</a> </td>
+                        <td>{{dt.dt_clo}} </td>
+                        <td>{{dt.n_ord}} </td>
+                        <td>{{dt.m_brd}} </td>
+                        <td>{{dt.dt_depot}} </td>
+                        <td>{{dt.dt_jrl}} </td>
+                        <td>{{dt.n_ord_jrl}} </td>
+                        <td>{{dt.m_jrl}} </td>
+                        <td>{{dt.dt_pay}} </td>
+                        <td>{{dt.defr}} </td>
+                        <td>{{dt.def_o}} </td>
+                    </tr>
+                    {% endif %}
                 {% endfor %}
                 
  
                 <!-- and so on... -->
             </tbody>
         </table>
+        
     </div>
 
 
