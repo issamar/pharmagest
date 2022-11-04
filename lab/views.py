@@ -11,7 +11,7 @@ from .models import Patients, Parameters, Labo
 # Create your views here.
 @login_required(login_url='main-page')
 def addP(request):
-    all_labs = Labo.objects.all()
+    all_labs = Labo.objects.all().order_by('-dt')[:30]
     patients = Patients.objects.all()
     parameters= Parameters.objects.all()
 
