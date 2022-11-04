@@ -22,15 +22,15 @@ def CmdPage(request):
         
         
         # pull data from db based on categories
-    My_cmd_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False, client= current_user).order_by('product')
-    My_cmd_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock' ,received=False, client= current_user).order_by('product')
-    My_cmd_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord' ,received=False, client= current_user).order_by('product')
-    My_cmd_q = Mycmd.objects.filter(prod_stat= 'Quota' ,received=False, client= current_user).order_by('product')
+    My_cmd_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False).order_by('product')
+    My_cmd_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock' ,received=False).order_by('product')
+    My_cmd_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord' ,received=False).order_by('product')
+    My_cmd_q = Mycmd.objects.filter(prod_stat= 'Quota' ,received=False).order_by('product')
         #count data 
-    count_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False, client= current_user).count()
-    count_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord',received=False, client= current_user).count()
-    count_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock',received=False, client= current_user).count()
-    count_q = Mycmd.objects.filter(prod_stat= 'Quota',received=False, client= current_user).count()
+    count_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False).count()
+    count_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord',received=False).count()
+    count_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock',received=False).count()
+    count_q = Mycmd.objects.filter(prod_stat= 'Quota',received=False).count()
     ste_ord = count_ord + count_ste
     stf_q = count_q + count_stf
 
@@ -46,7 +46,7 @@ def CmdPage(request):
             
         if 'register' in request.POST:
             print(request.POST, flush=True)
-            all_prod_cmd = Mycmd.objects.values_list('product').filter(received = False, client = current_user)
+            all_prod_cmd = Mycmd.objects.values_list('product').filter(received = False)
             new_product = request.POST['product']
             all_prod_cmd_list = list(itertools.chain(*all_prod_cmd))
             if new_product not in all_prod_cmd_list: 
@@ -57,13 +57,13 @@ def CmdPage(request):
         elif 'cmded' in request.POST:
             selected_prods = request.POST.getlist('products')
             for item in selected_prods:
-                obj = Mycmd.objects.get(product=item, received = False, client= current_user)
+                obj = Mycmd.objects.get(product=item, received = False)
                 obj.cmded = True
                 obj.save()
         elif 'rec' in request.POST:
             selected_prods = request.POST.getlist('products')
             for item in selected_prods:
-                obj = Mycmd.objects.get(product=item, received = False, client = current_user)
+                obj = Mycmd.objects.get(product=item, received = False)
                 obj.received = True
                 obj.received_0 = True
                 obj.save()
@@ -76,20 +76,20 @@ def CmdPage(request):
                         new_item.received = 1
                         new_item.indisponible = 0
                         new_item.save()
-                        Mycmd.objects.get(product=item, received = True, client = current_user, deleted=False).delete()
+                        Mycmd.objects.get(product=item, received = True, deleted=False).delete()
                     elif item in get_all_deleted_item:
                         exiting_item = StatTable.objects.filter(product = item).update(cmded = F('cmded') + 1, received=F('received') + 1)
-                        Mycmd.objects.get(product=item, received = True, client = current_user, deleted=False).delete()
+                        Mycmd.objects.get(product=item, received = True, deleted=False).delete()
         elif 'indis' in request.POST:
             selected_prods = request.POST.getlist('products')
             for item in selected_prods:
-                obj = Mycmd.objects.get(product=item, received = False, client = current_user)
+                obj = Mycmd.objects.get(product=item, received = False)
                 obj.indisponible = True
                 obj.save()
         elif 'supp' in request.POST:
             selected_prods = request.POST.getlist('products')
             for item in selected_prods:
-                obj = (Mycmd.objects.get(product=item, client = current_user))
+                obj = (Mycmd.objects.get(product=item))
                 obj.deleted = True
                 obj.save()
                 if obj.indisponible == True and obj.deleted == True:
@@ -101,24 +101,24 @@ def CmdPage(request):
                         new_item.received = 0
                         new_item.indisponible = 1
                         new_item.save()
-                        Mycmd.objects.get(product=item, received = False, client = current_user, deleted=True).delete()
+                        Mycmd.objects.get(product=item, received = False, deleted=True).delete()
                     elif item in get_all_deleted_item:
                         print(item, flush=True)
                         exiting_item = StatTable.objects.filter(product = item).update(cmded = F('cmded') + 1, indisponible = F('indisponible') + 1)
-                        Mycmd.objects.get(product=item, received = False, client = current_user, deleted=True).delete()
+                        Mycmd.objects.get(product=item, received = False,  deleted=True).delete()
                 elif obj.indisponible == False and obj.deleted == True:
-                    Mycmd.objects.get(product=item, client = current_user).delete()
+                    Mycmd.objects.get(product=item).delete()
 
 
-        My_cmd_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False, client= current_user).order_by('product')
-        My_cmd_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock' ,received=False, client= current_user).order_by('product')
-        My_cmd_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord' ,received=False, client= current_user).order_by('product')
-        My_cmd_q = Mycmd.objects.filter(prod_stat= 'Quota' ,received=False, client= current_user).order_by('product')
+        My_cmd_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False).order_by('product')
+        My_cmd_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock' ,received=False).order_by('product')
+        My_cmd_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord' ,received=False).order_by('product')
+        My_cmd_q = Mycmd.objects.filter(prod_stat= 'Quota' ,received=False).order_by('product')
             #count data 
-        count_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False, client= current_user).count()
-        count_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord',received=False, client= current_user).count()
-        count_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock',received=False, client= current_user).count()
-        count_q = Mycmd.objects.filter(prod_stat= 'Quota',received=False, client= current_user).count()
+        count_ste = Mycmd.objects.filter(prod_stat= 'Pas de Stock',received=False).count()
+        count_ord = Mycmd.objects.filter(prod_stat= 'Pour Ord',received=False).count()
+        count_stf = Mycmd.objects.filter(prod_stat= 'Faible Stock',received=False).count()
+        count_q = Mycmd.objects.filter(prod_stat= 'Quota',received=False).count()
         ste_ord = count_ord + count_ste
         stf_q = count_q + count_stf
 
