@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-&@wr*rn0snnneo$f)swj&e0%kt9lr=*n$6^7u1=)rg!15igsfj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://web-production-c8b2.up.railway.app/']
+ALLOWED_HOSTS = ['https://web-production-c8b2.up.railway.app/','localhost']
 
 
 # Application definition
@@ -97,9 +97,13 @@ WSGI_APPLICATION = 'pharmagest.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-       
+        #'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'smoSAE25C0Lpsltgvir2',
+        'HOST': 'containers-us-west-54.railway.app',
+        'PORT': '6311',
     }
 }
 
