@@ -13,7 +13,7 @@ from mainpage.decorators import allowed_users
 @allowed_users(allowed_roles=['admin'])
 def brd(request):
 	form = BordereauxForm(request.POST or None)
-	all_brd = Bordereaux.objects.all().order_by('-dt_clo')[:15]
+	all_brd = Bordereaux.objects.all().order_by('dt_clo')
 	if request.method == 'POST':
 		print(request.POST, flush=True)
 		form = BordereauxForm(request.POST)

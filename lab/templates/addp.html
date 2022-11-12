@@ -221,7 +221,7 @@
                             {%if lab.hba1c == True %}
                                 <td style="background-color: #abb0c2; border-radius: 15px; font-weight: bold;">{{lab.p_name}} </td>
                             {% else %}
-                                <td style="font-weight: bold">{{lab.p_name}} </td>
+                                <td style="font-weight: bold">{{lab.p_name|upper}} </td>
                             {% endif %}
                             
                             <td>{{lab.params}} </td>
@@ -384,8 +384,15 @@ function calcRest(){
 function calcHba1c(){
     var ifChecked = document.getElementById('hba1c').checked
     if (ifChecked === true){
-        var rest = document.getElementById('rest').value 
-        document.getElementById('rest').value = rest - 700
+        if(insertParams.length === 1){
+             document.getElementById('rest').value = 0
+             document.getElementById('money').value = 0
+        }
+        else{
+            var rest = document.getElementById('rest').value 
+            document.getElementById('rest').value = rest - 700
+        }
+        
     }
     if (ifChecked === false){
         var rest = document.getElementById('rest').value 

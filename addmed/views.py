@@ -11,12 +11,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import AddmedForm, AddartForm
 from .models import Addmed, Addart
-from makecmd.decoators import Time_to_pay
+
 # Create your views here.
 
 # a function to add new product to the database
 @login_required(login_url='main-page')
-@Time_to_pay
+
 def AddMed(request): 
     form = AddmedForm()
     art_form = AddartForm()
@@ -77,7 +77,7 @@ def AddMed(request):
     return render(request, 'addmed/add_med.html',{'form' : form, 'dcis' : dcis, 'art_form' : art_form, 'arts':arts, 'products_list':products_list})
 
 @login_required(login_url='main-page')
-@Time_to_pay
+
 def dech(request):
             # pull all meds from db
     products = Addmed.objects.all()

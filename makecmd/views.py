@@ -9,11 +9,11 @@ from .forms import EditItemForm, MycmdForm
 from datetime import datetime, timezone
 from django.contrib.auth.models import User
 from mainpage.decorators import loged_users, allowed_users
-from .decoators import Time_to_pay
+
 from django .db.models import F
 # Create your views here. 
 @login_required(login_url='main-page')
-@Time_to_pay
+
 def CmdPage(request):
     
     form = MycmdForm
@@ -130,7 +130,7 @@ def CmdPage(request):
 
 
 @login_required(login_url='main-page')
-@Time_to_pay
+
 def editItem(request,prod_id):
     
     get_product = Mycmd.objects.get(pk=prod_id)
