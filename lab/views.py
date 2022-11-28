@@ -25,7 +25,7 @@ def display_detail(request):
     return render(request, 'addp.html', {'patients' : patients, 'parameters' : parameters, 'all_labs' : all_labs,'prele_count':prele_count,
                     'total_payement':total_payement,'total_rest':total_rest,'hba1c_free':hba1c_free, 'current_date':current_date})
 
-
+@login_required(login_url='main-page')
 def addP(request):
 
     if request.method == 'POST':
@@ -57,7 +57,7 @@ def addpinfo(request):
         form = PatientInfo(request.POST)
         if form.is_valid:
             form.save()
-            redirect('lab/add_patient')
+            return redirect('display_detail')
 
 
     return render(request, 'addpinfo.html', {'patient_form' : patient_form})
@@ -90,7 +90,7 @@ def editrest(request, pk):
 
 
     return render(request, 'edit-rest.html',{'getPatient' : getPatient})
-
+@login_required(login_url='main-page')
 def searchP(request):
     print(request.POST, flush=True)
     searched = Labo.objects.filter(p_name= request.POST['p_name'])

@@ -114,12 +114,16 @@
     .hid{
         visibility: hidden;
     }
+    .table-container{
+        width: auto;
+        text-align: center;
+    }
     .styled-table {
     border-collapse: collapse;
-    margin: 25px 0;
+    margin: 10px;
     font-size: 0.9em;
     font-family: sans-serif;
-    min-width: 400px;
+    width: auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 .styled-table thead tr {
@@ -129,7 +133,7 @@
 }
 .styled-table th,
 .styled-table td {
-    padding: 12px 15px;
+    padding: 5px;
 }
 .styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
@@ -186,7 +190,7 @@
                     <datalist id="patients">
                       
                       {% for patient in patients %}
-                      <option >{{patient.patient_name|upper}}: {{patient.patient_age}}  {{patient.patient_dob}} </option>
+                      <option >{{patient.patient_name|upper}}: {{patient.patient_age}}  {% if patient.patient_dob == None %} {% else %} {{patient.patient_dob}} {% endif%} </option>
                       {% endfor %}
         
                     </datalist>
@@ -226,8 +230,8 @@
         <div class="stat-container">
             <div class=" stat div-date">Le <b>{{current_date}}</b> </div>
             <div class=" stat div-count">Nombre de prélèvement: <b> {{prele_count}}</b></div>
-            <div class=" stat div-pay">Total du payement: <b>{{total_payement.pay__sum}}</b>  </div>
-            <div class=" stat div-rest">Total de credit: <b>{{total_rest.rest__sum}}</b>  </div>
+            <div class=" stat div-pay">Total du payement: <b>{% if total_payement.pay__sum == None %} 0 {% else %} {{total_payement.pay__sum}} {% endif %} </b>  </div>
+            <div class=" stat div-rest">Total de credit: <b>{% if total_rest == None %} 0 {% else %} {{total_rest.rest__sum}} {% endif %}</b>  </div>
             <div class="stat div-hba1c">Total HBA1C Gratuit : <b>{{hba1c_free}}</b>  </div>
         </div>
        <form action="{% url 'search-P'%} " method="POST">{% csrf_token %}
@@ -369,7 +373,11 @@ function addParameter(){
     for(i=0;i<parameters.length;i++){
         if(parameters[i].Param_name == param){
             var currentParam = parameters[i]
-            insertParams.push(currentParam)
+            if(insertParams.includes(currentParam)){
+               return window.alert('Parametre Deja Saisi')
+            }else{
+                insertParams.push(currentParam) 
+            }
             
             } 
             

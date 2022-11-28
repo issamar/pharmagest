@@ -30,5 +30,5 @@ class Parameters(models.Model):
 class Patients(models.Model):
     patient_name = models.CharField('name', max_length=250)
     patient_age = models.IntegerField('age')
-    patient_dob = models.DateField('dob', blank=True, null = True)
+    patient_dob = models.DateField('dob', blank=True, null=True)
     
