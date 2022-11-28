@@ -146,6 +146,33 @@
     font-weight: bold;
     color: #009879;
 }
+.search-container{
+    border: 1px solid black;
+    border-radius: 15px;
+}
+.stat-container{
+
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    
+}
+.stat{
+    margin: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #E26868;
+    padding: 5px;
+}
+.search-cont{
+    display: flex;
+    margin: 15px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    justify-content: center;
+    padding: 10px;
+}
+
 </style>
 
 {% endblock %}
@@ -153,7 +180,7 @@
 {% block content %}
     <div class="container">
         <div class="info-container">
-            <form method="POST">{% csrf_token %}
+            <form method="POST" action=" {% url 'add-P'%} ">{% csrf_token %}
                 <div class="patient-info">
                     <input type="text" class="form-control text-uppercase" placeholder="Choisir le patient" list="patients" name="p_name" id="pt" autocomplete="off" autofocus required>
                     <datalist id="patients">
@@ -196,7 +223,77 @@
                     <input type="number" name="selected_parameters_price_lab" id="input2ohid" class="hid">
             </form>
         </div>
+        <div class="stat-container">
+            <div class=" stat div-date">Le <b>{{current_date}}</b> </div>
+            <div class=" stat div-count">Nombre de prélèvement: <b> {{prele_count}}</b></div>
+            <div class=" stat div-pay">Total du payement: <b>{{total_payement.pay__sum}}</b>  </div>
+            <div class=" stat div-rest">Total de credit: <b>{{total_rest.rest__sum}}</b>  </div>
+            <div class="stat div-hba1c">Total HBA1C Gratuit : <b>{{hba1c_free}}</b>  </div>
+        </div>
+       <form action="{% url 'search-P'%} " method="POST">{% csrf_token %}
+        <div class="search-cont">
+            <input type="text" class="form-control text-uppercase w-50 mx-2" placeholder="Choisir le patient" list="patients" name="p_name" id="pt" autocomplete="off" autofocus required>
+            <datalist id="patients">
+                      
+                {% for patient in patients %}
+                <option >{{patient.patient_name|upper}}: {{patient.patient_age}}  {{patient.patient_dob}} </option>
+                {% endfor %}
+    
+            </datalist>
+            <input type="submit" class="btn btn-success" value="Chercher">
+            <button class="btn btn-danger mx-1"><a style="text-decoration: none; color: white;" href="{% url 'display_detail'%} ">Retour</a> </button>
+            
+        </div>
+       </form>
+       {% if searched %}
+       <div class="search-result">
+        <div class="table-container">
+            
 
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Patient Info</th>
+                        <th>Paramétres Réalisés</th>
+                        <th> Prix</th>
+                        <th> Payement</th>
+                        <th>Le Reste</th>
+                        <th>Informations</th>
+                        <th>Reçu ?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for search in searched %}
+                        <tr>
+                            <td>{{search.dt}} </td>
+
+                            {%if search.hba1c == True %}
+                                <td style="background-color: #abb0c2; border-radius: 15px; font-weight: bold;">{{search.p_name}} </td>
+                            {% else %}
+                                <td style="font-weight: bold">{{search.p_name|upper}} </td>
+                            {% endif %}
+                            
+                            <td>{{search.params}} </td>
+                            <td>{{search.price}} </td>
+                            <td>{{search.pay}} </td>
+                            <td> <a href="{% url 'edit-rest' search.id %} "> {{search.rest}}</a>  </td>
+                            <td>{{search.info}} </td>
+                            {% if search.delevered == True %}
+                            <td style="background-color: green; border-radius: 15px;">Livré </td>
+                            {% else %}
+                            <td style="background-color: #f07f62; border-radius: 15px;"> Non Livré </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+
+                    <!-- and so on... -->
+                </tbody>
+            </table>
+        </div>
+       </div>
+
+       {% else %}
         <div class="table-container">
 
 
@@ -241,6 +338,7 @@
                 </tbody>
             </table>
         </div>
+        {% endif%}
     </div>
 <script>
 var parameters = [

@@ -97,13 +97,14 @@ WSGI_APPLICATION = 'pharmagest.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'smoSAE25C0Lpsltgvir2',
-        'HOST': 'containers-us-west-54.railway.app',
-        'PORT': '6311',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.postgresql',
+        #'NAME': 'railway',
+        #'USER': 'postgres',
+        #'PASSWORD': 'wpFrnfdiP4aIbEk6DFlF',
+        #'HOST': 'containers-us-west-54.railway.app',
+        #'PORT': '6311',
     }
 }
 

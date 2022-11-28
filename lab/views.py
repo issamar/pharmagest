@@ -1,22 +1,35 @@
 
 from dataclasses import fields
 from webbrowser import get
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,HttpResponse
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
 import lab
-
+from django.db.models import Sum, Avg, Min, Max, Count
+from datetime import date
 from .forms import  PatientInfo
 from .models import Patients, Parameters, Labo
 # Create your views here.
 @login_required(login_url='main-page')
-def addP(request):
-    all_labs = Labo.objects.all().order_by('-dt')[:30]
+
+def display_detail(request):
+    current_date = date.today()
+    all_labs = Labo.objects.all().order_by('-dt')[:10]
     patients = Patients.objects.all()
     parameters= Parameters.objects.all()
+    print(current_date, flush=True)
+    prele_count = Labo.objects.filter(dt=current_date).count()
+    total_payement = Labo.objects.filter(dt=current_date).aggregate(Sum('pay'))
+    total_rest = Labo.objects.filter(dt=current_date).aggregate(Sum('rest'))
+    hba1c_free = Labo.objects.filter(dt=current_date).filter(hba1c = 'True').count()
+    return render(request, 'addp.html', {'patients' : patients, 'parameters' : parameters, 'all_labs' : all_labs,'prele_count':prele_count,
+                    'total_payement':total_payement,'total_rest':total_rest,'hba1c_free':hba1c_free, 'current_date':current_date})
+
+
+def addP(request):
 
     if request.method == 'POST':
-        print(request.POST, flush=True)
+        
         analyse = Labo()
         analyse.p_name = request.POST.get('p_name')
         analyse.params = request.POST.get('selected_parameters')
@@ -32,7 +45,7 @@ def addP(request):
         analyse.save()
 
       
-    return render(request, 'addp.html', {'patients' : patients, 'parameters' : parameters, 'all_labs' : all_labs})
+    return redirect(display_detail)
 
 
 
@@ -77,3 +90,12 @@ def editrest(request, pk):
 
 
     return render(request, 'edit-rest.html',{'getPatient' : getPatient})
+
+def searchP(request):
+    print(request.POST, flush=True)
+    searched = Labo.objects.filter(p_name= request.POST['p_name'])
+    patients = Patients.objects.all()
+    parameters= Parameters.objects.all()
+    
+
+    return render(request,'addp.html',{'searched':searched,'patients':patients,'parameters':parameters})
