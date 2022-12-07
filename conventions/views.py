@@ -15,7 +15,7 @@ def brd(request):
 	form = BordereauxForm(request.POST or None)
 	all_brd = Bordereaux.objects.all().order_by('dt_clo')
 	if request.method == 'POST':
-		print(request.POST, flush=True)
+		
 		form = BordereauxForm(request.POST)
 		if form.is_valid():
 			form.save()
@@ -41,7 +41,7 @@ def editBrd(request, pk):
 		selected_brd.defr = float(m_brd) - float(m_jrl)
 		selected_brd.def_o = int(n_ord) - int(n_jrl)
 		selected_brd.dt_pay = date_pay
-		print(n_ord, m_brd,n_jrl,m_jrl, flush=True)
+		
 		form = EditBrdFrom(request.POST,instance=selected_brd)
 		if form.is_valid():
 			

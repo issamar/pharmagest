@@ -110,13 +110,7 @@
           
         </div>
         
-        {% if messages%}
-          <script>
-            {% for message in messages %}
-              alert("{{message}}")
-            {% endfor %}
-          </script>
-        {% endif%}
+
         <!--<div class="text-center mt-4 ">
           {% if messages %}
           {% for message in messages %}
@@ -126,7 +120,13 @@
           
         </div>-->
         <div class="text-center "><a href="{% url 'cmd-page'%}"><button class="btn btn-info btn3d mt-5 ">Retour a la page de commande</button></a></div>
-        
+        {% if messages%}
+          <script>
+            {% for message in messages %}
+              alert("{{message}}")
+            {% endfor %}
+          </script>
+        {% endif%}
       </div>
       
     </section>

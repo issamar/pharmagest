@@ -239,7 +239,7 @@
             <input type="text" class="form-control text-uppercase w-50 mx-2" placeholder="Choisir le patient" list="patients" name="p_name" id="pt" autocomplete="off" autofocus required>
             <datalist id="patients">
                       
-                {% for patient in patients %}
+                {% for patient in d_patient %}
                 <option >{{patient.patient_name|upper}}: {{patient.patient_age}}  {{patient.patient_dob}} </option>
                 {% endfor %}
     

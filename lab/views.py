@@ -96,6 +96,7 @@ def searchP(request):
     searched = Labo.objects.filter(p_name= request.POST['p_name'])
     patients = Patients.objects.all()
     parameters= Parameters.objects.all()
+    d_patient = Labo.objects.values_list('p_name')
     
 
-    return render(request,'addp.html',{'searched':searched,'patients':patients,'parameters':parameters})
+    return render(request,'addp.html',{'searched':searched,'patients':patients,'parameters':parameters,'d_patient':d_patient})

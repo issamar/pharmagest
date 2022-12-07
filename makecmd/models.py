@@ -15,7 +15,7 @@ class Mycmd(models.Model):
     client = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     
 
-
+ 
 
 class StatTable(models.Model):
     product = models.CharField('product', max_length=250)

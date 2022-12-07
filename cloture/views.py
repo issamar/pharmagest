@@ -15,16 +15,16 @@ def closure(request):
 		post=request.POST.copy()
 		post['username']=request.user
 		request.POST = post
-		print(request.POST, flush=True)
+		
 		form = ClosureForm(request.POST or None)
 		
 		if form.is_valid():
 
 			form.save()
-			print('done', flush=True)
-		else:
-			print('looooser', flush=True)
-	form = ClosureForm({'username':request.user})
+			
+	last_id = Closure.objects.latest('id').pk
+	last_start_money = Closure.objects.get(id = last_id).closure_money
+	form = ClosureForm({'username':request.user, 'start_money':last_start_money})
 	some_data = Closure.objects.all().order_by('-id')[:10]
 	
 	return render(request,'closure-page.html',{"form":form, 'datas' : some_data})

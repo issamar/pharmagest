@@ -13,7 +13,6 @@ from mainpage.decorators import loged_users, allowed_users
 from django .db.models import F
 # Create your views here. 
 @login_required(login_url='main-page')
-
 def CmdPage(request):
     
     form = MycmdForm
@@ -45,7 +44,7 @@ def CmdPage(request):
     if request.method == 'POST': 
             
         if 'register' in request.POST:
-            print(request.POST, flush=True)
+            
             all_prod_cmd = Mycmd.objects.values_list('product').filter(received = False)
             new_product = request.POST['product']
             all_prod_cmd_list = list(itertools.chain(*all_prod_cmd))
@@ -53,6 +52,13 @@ def CmdPage(request):
                 form = MycmdForm(request.POST)
                 if form.is_valid():
                     form.save()
+            else:
+                messages.warning(request, 'Produit Existe Deja')
+                new_product_db = Mycmd.objects.get(product = new_product).pk
+                return redirect(editItem,prod_id = new_product_db)
+                
+                
+
 
         elif 'cmded' in request.POST:
             selected_prods = request.POST.getlist('products')
@@ -131,7 +137,8 @@ def CmdPage(request):
 
 @login_required(login_url='main-page')
 
-def editItem(request,prod_id):
+def editItem(request,prod_id,*args):
+    
     
     get_product = Mycmd.objects.get(pk=prod_id)
     

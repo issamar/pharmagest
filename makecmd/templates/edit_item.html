@@ -11,6 +11,13 @@
     <title>Editer produit</title>
   </head>
   <body>
+    {% if messages%}
+    <script>
+      {% for message in messages %}
+        alert("{{message}}")
+      {% endfor %}
+    </script>
+  {% endif%}
     <h1 class="text-center">Editer </h1>
     <div class="container ">
         <div class="w-50 border border-info rounded-3 mx-auto">
