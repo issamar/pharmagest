@@ -106,6 +106,7 @@
                 <input list="period" name="time" id="timelap" placeholder="Choisir la periode" class="form-control">
                 <datalist id="period">
                     <option value="Ce mois">
+                    <option value="Mois précédent">
                     <option value="Ce trimestre">
                     <option value="Cette année">
                     <option value="Tous" default>
@@ -118,6 +119,7 @@
     
                 </datalist>
                 <input type="submit" value="Filtrer" class="btn btn-primary" >
+                <button class="btn btn-danger" ><a href="{% url 'brd'%} " style="text-decoration: none ; color: white" >Retour</a> </button>
             </form>
         </div>
         <table class="styled-table">

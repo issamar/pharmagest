@@ -53,16 +53,61 @@ def editBrd(request, pk):
 @login_required(login_url='main-page')
 @allowed_users(allowed_roles=['admin'])
 def filterBrd(request):
-	print(request.POST, flush=True)
+	current_month = datetime.datetime.now().month
+	current_year = datetime.datetime.now().year
+	print(current_month, flush=True)
 	if request.method == 'POST':
 		centre = request.POST['centre']
 		period = request.POST['time']
 		pay = request.POST['payement']
-		if pay == 'Payé':
-			pay = True
-		if pay == 'Non Payé':
+
+
+
+		
+		# Ce mois
+		if pay == 'Non Payé' and  period == "Ce mois":
 			pay = False
-		data = Bordereaux.objects.filter(pay_ctr = centre).filter(payement = pay)
-		print(type(centre),period,pay, flush=True)
-		return render(request, 'brd.html',{'data': data})
+			data = Bordereaux.objects.filter(pay_ctr = centre).filter(payement = pay).filter(dt_clo__month = current_month, dt_clo__year = current_year)
+		if pay == 'Payé' and  period == "Ce mois":
+			pay = True
+			data = Bordereaux.objects.filter(pay_ctr = centre).filter(payement = pay).filter(dt_clo__month = current_month, dt_clo__year = current_year)
+		if centre == 'Tous' and pay == 'Tous' and period == 'Ce mois':
+			data = Bordereaux.objects.filter(dt_clo__month = current_month, dt_clo__year = current_year)
+			return render(request, 'brd.html',{'data': data})
+
+
+
+
+
+		# Mois précédent
+		if pay == 'Non Payé' and  period == "Mois précédent":
+			pay = False
+			if current_month == 1:
+				current_month = 12
+				current_year = current_year - 1
+				data = Bordereaux.objects.filter(pay_ctr = centre).filter(payement = pay).filter(dt_clo__month = current_month, dt_clo__year = current_year)
+			else:
+				data = Bordereaux.objects.filter(pay_ctr = centre).filter(payement = pay).filter(dt_clo__month = current_month-1, dt_clo__year = current_year)
+		if pay == 'Payé' and  period == "Mois précédent":
+			pay = True
+			if current_month == 1:
+				current_month = 12
+				current_year = current_year - 1
+				data = Bordereaux.objects.filter(pay_ctr = centre).filter(payement = pay).filter(dt_clo__month = current_month, dt_clo__year = current_year)
+			else:
+				data = Bordereaux.objects.filter(pay_ctr = centre).filter(payement = pay).filter(dt_clo__month = current_month-1, dt_clo__year = current_year)
+		if centre == 'Tous' and pay == 'Tous' and period == 'Mois précédent':
+			if current_month == 1:
+				current_month = 12
+				current_year = current_year - 1
+				data = Bordereaux.objects.filter(dt_clo__month = current_month-1, dt_clo__year = current_year)
+			else:
+				data = Bordereaux.objects.filter(dt_clo__month = current_month-1, dt_clo__year = current_year)
+
+				return render(request, 'brd.html',{'data': data})
+		
+		
+			return render(request, 'brd.html',{'data': data})
 	return render(request, 'brd.html',{})
+
+

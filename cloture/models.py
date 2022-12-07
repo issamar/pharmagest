@@ -9,7 +9,7 @@ class Closure(models.Model):
 	start_money = models.IntegerField()
 	closure_money = models.IntegerField()
 	closure_paper = models.IntegerField()
-	money = models.DecimalField(decimal_places=2, max_digits=8, null=True, blank=True, default=0)
+	money = models.DecimalField(decimal_places=2, max_digits=8, default=0)
 	details = models.CharField(max_length=200, blank=True, null=True)
 	wasfa = models.DecimalField(decimal_places=2, max_digits=8, blank=True, null=True, default=0)
 	real_money = models.DecimalField(decimal_places=2, max_digits=8, null=True, blank=True, default=0)

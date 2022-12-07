@@ -52,7 +52,7 @@ class ClosureForm(forms.ModelForm):
 				'class' : 'form-control inpt',
 				'placehlder' : 'Details'
 				}),
-			'wasfa' : forms.TextInput(attrs={
+			'wasfa' : forms.NumberInput(attrs={
 				'id':'logi',
 				'class' : 'form-control inpt',
 				'placehlder' : 'Logiciel'
@@ -63,7 +63,7 @@ class ClosureForm(forms.ModelForm):
 		}
 
 		labels = {
-			'username' : ("User"),
+
 			'start_money' : ("Argent De Départ"),
 			'closure_money' : ("Argent De Sortie"),
 			'closure_paper' : ("Recette"),
