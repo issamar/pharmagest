@@ -228,7 +228,7 @@
             </form>
         </div>
         <div class="stat-container">
-            <div class=" stat div-date">Le <b>{{current_date}}</b> </div>
+            <div class=" stat div-date">Le <b>{{searched_date}}</b> </div>
             <div class=" stat div-count">Nombre de prélèvement: <b> {{prele_count}}</b></div>
             <div class=" stat div-pay">Total du payement: <b>{% if total_payement.pay__sum == None %} 0 {% else %} {{total_payement.pay__sum}} {% endif %} </b>  </div>
             <div class=" stat div-rest">Total de credit: <b>{% if total_rest == None %} 0 {% else %} {{total_rest.rest__sum}} {% endif %}</b>  </div>
@@ -236,7 +236,7 @@
         </div>
        <form action="{% url 'search-P'%} " method="POST">{% csrf_token %}
         <div class="search-cont">
-            <input type="text" class="form-control text-uppercase w-50 mx-2" placeholder="Choisir le patient" list="patients" name="p_name" id="pt" autocomplete="off" autofocus required>
+            <input type="text" class="form-control text-uppercase w-50 mx-2" placeholder="Choisir le patient" list="patients" name="p_name" id="pt" autocomplete="off" autofocus>
             <datalist id="patients">
                       
                 {% for patient in d_patient %}
@@ -244,6 +244,7 @@
                 {% endfor %}
     
             </datalist>
+            <input type="date" class="form-control w-50 mx-2" name="dt" id="dt">
             <input type="submit" class="btn btn-success" value="Chercher">
             <button class="btn btn-danger mx-1"><a style="text-decoration: none; color: white;" href="{% url 'display_detail'%} ">Retour</a> </button>
             
