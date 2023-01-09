@@ -24,5 +24,6 @@ urlpatterns = [
     path('addmed/', include('addmed.urls')),
     path('cloture/', include('cloture.urls')),
     path('lab/', include('lab.urls')),
+    path('dashboard/', include('dashbord.urls')),
     path('conv/', include('conventions.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

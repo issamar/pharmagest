@@ -1,0 +1,17 @@
+{% extends 'cmd_page.html' %}
+{% load static %}
+
+{% block title %} Dashboard {% endblock %}
+{% block extra_head %} 
+<style>
+    body{
+       background-image: url('{% static 'img/main_bg2.png' %}');
+      }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<p> Recette de ce mois: {{month_money.Entry}}</p>
+
+{% endblock %}

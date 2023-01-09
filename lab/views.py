@@ -14,7 +14,7 @@ from .models import Patients, Parameters, Labo
 
 def display_detail(request):
     current_date = date.today()
-    all_labs = Labo.objects.all().order_by('-dt')[:10]
+    all_labs = Labo.objects.filter(dt=current_date)
     patients = Patients.objects.all()
     parameters= Parameters.objects.all()
     print(current_date, flush=True)

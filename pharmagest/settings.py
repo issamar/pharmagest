@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'cloture',
     'lab',
     'conventions',
+    'dashbord',
 ]
 # Cache backend is optional, but recommended to speed up user agent parsing
 CACHES = {
