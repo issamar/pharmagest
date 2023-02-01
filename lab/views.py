@@ -12,18 +12,15 @@ from .models import Patients, Parameters, Labo
 # Create your views here.
 @login_required(login_url='main-page')
 
-def display_detail(request, searched_date = date.today() ):
-    print(request, flush=True)
-    all_labs = Labo.objects.filter(dt=searched_date)
+def display_detail(request ):
+    
+    
+    all_labs = Labo.objects.all().order_by('-dt')[:20]
     patients = Patients.objects.all()
     parameters= Parameters.objects.all()
     
-    prele_count = Labo.objects.filter(dt=searched_date).count()
-    total_payement = Labo.objects.filter(dt=searched_date).aggregate(Sum('pay'))
-    total_rest = Labo.objects.filter(dt=searched_date).aggregate(Sum('rest'))
-    hba1c_free = Labo.objects.filter(dt=searched_date).filter(hba1c = 'True').count()
-    return render(request, 'addp.html', {'patients' : patients, 'parameters' : parameters, 'all_labs' : all_labs,'prele_count':prele_count,
-                    'total_payement':total_payement,'total_rest':total_rest,'hba1c_free':hba1c_free, 'searched_date':searched_date})
+  
+    return render(request, 'addp.html', {'patients' : patients, 'parameters' : parameters, 'all_labs' : all_labs})
 
 @login_required(login_url='main-page')
 def addP(request):
@@ -92,25 +89,47 @@ def editrest(request, pk):
     return render(request, 'edit-rest.html',{'getPatient' : getPatient})
 @login_required(login_url='main-page')
 def searchP(request):
-    print("2",request, flush=True)
+    
     patient_name = request.POST['p_name']
-    searched_date = request.POST['dt']
-    if patient_name and searched_date:
-        searched = Labo.objects.filter(p_name= request.POST['p_name'], dt= searched_date)
-    elif patient_name:
-        searched = Labo.objects.filter(p_name= request.POST['p_name'])
-    elif searched_date:
-        searched = Labo.objects.filter( dt= searched_date)
+    searched_date1 = request.POST['dt1']
+    searched_date2 = request.POST['dt2']
+    
+    if patient_name == '' and searched_date1 and searched_date2:
+        data = Labo.objects.filter(dt__gte = searched_date1, dt__lte = searched_date2).order_by('-dt')
+        data_count = data.count()
+        data_pay = data.aggregate(pay__sum=Sum('pay'))
+        data_rest = data.aggregate(Sum('rest'))
+        data_hba1c = Labo.objects.filter(dt__gte = searched_date1, dt__lte = searched_date2, hba1c = True).count()
+        return render(request,'addp.html',{'all_labs':data,'prele_count':data_count,'total_payement':data_pay,'total_rest':data_rest,'hba1c_free':data_hba1c})
+    if patient_name =='' and searched_date1 and searched_date2 == '':
+        data = Labo.objects.filter(dt = searched_date1).order_by('-dt')
+        data_count = data.count()
+        data_pay = data.aggregate(pay__sum=Sum('pay'))
+        data_rest = data.aggregate(Sum('rest'))
+        data_hba1c = Labo.objects.filter(dt__gte = searched_date1, dt__lte = searched_date2, hba1c = True).count()
+        return render(request,'addp.html',{'all_labs':data,'prele_count':data_count,'total_payement':data_pay,'total_rest':data_rest,'hba1c_free':data_hba1c})
+    if patient_name and searched_date1 == '' and searched_date2 =='':
+        data = Labo.objects.filter(p_name__icontains = patient_name).order_by('-dt')
+        data_count = data.count()
+        data_pay = data.aggregate(pay__sum=Sum('pay'))
+        data_rest = data.aggregate(Sum('rest'))
+        data_hba1c = Labo.objects.filter(dt__gte = searched_date1, dt__lte = searched_date2, hba1c = True).count()
+        return render(request,'addp.html',{'all_labs':data,'prele_count':data_count,'total_payement':data_pay,'total_rest':data_rest,'hba1c_free':data_hba1c})
+    if patient_name and searched_date1 and searched_date2:
+        data = Labo.objects.filter(p_name__icontains = patient_name,dt__gte = searched_date1, dt__lte = searched_date2).order_by('-dt')
+        data_count = data.count()
+        data_pay = data.aggregate(pay__sum=Sum('pay'))
+        data_rest = data.aggregate(Sum('rest'))
+        data_hba1c = Labo.objects.filter(dt__gte = searched_date1, dt__lte = searched_date2, hba1c = True).count()
+        return render(request,'addp.html',{'all_labs':data,'prele_count':data_count,'total_payement':data_pay,'total_rest':data_rest,'hba1c_free':data_hba1c})
+    if patient_name and searched_date1 and searched_date2 == '':
+        data = Labo.objects.filter(p_name__icontains = patient_name,dt= searched_date1).order_by('-dt')
+        data_count = data.count()
+        data_pay = data.aggregate(pay__sum=Sum('pay'))
+        data_rest = data.aggregate(Sum('rest'))
+        data_hba1c = Labo.objects.filter(dt__gte = searched_date1, dt__lte = searched_date2, hba1c = True).count()
+        return render(request,'addp.html',{'all_labs':data,'prele_count':data_count,'total_payement':data_pay,'total_rest':data_rest,'hba1c_free':data_hba1c})   
     patients = Patients.objects.all()
     parameters= Parameters.objects.all()
-    d_patient = Labo.objects.values_list('p_name')
-    prele_count = Labo.objects.filter(dt=searched_date).count()
-    total_payement = Labo.objects.filter(dt=searched_date).aggregate(Sum('pay'))
-    total_rest = Labo.objects.filter(dt=searched_date).aggregate(Sum('rest'))
-    hba1c_free = Labo.objects.filter(dt=searched_date).filter(hba1c = 'True').count()
 
-    
-    
-
-    return render(request,'addp.html',{'searched':searched,'patients':patients,'parameters':parameters,'d_patient':d_patient,
-                    'prele_count':prele_count,'total_payement':total_payement,'total_rest':total_rest,'hba1c_free':hba1c_free, 'searched_date':searched_date})
+    return render(request,'addp.html',{})
