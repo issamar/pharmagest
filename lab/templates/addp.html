@@ -230,7 +230,8 @@
         <div class="stat-container">
             
             <div class=" stat div-count">Nombre de prélèvement: <b> {{prele_count}}</b></div>
-            <div class=" stat div-pay">Total du payement: <b>{% if total_payement.pay__sum == None %} 0 {% else %} {{total_payement.pay__sum}} {% endif %} </b>  </div>
+            
+            <!-- <div class=" stat div-pay">Total du payement: <b>{% if total_payement.pay__sum == None %} 0 {% else %} {{total_payement.pay__sum}} {% endif %} </b>  </div> -->
             <div class=" stat div-rest">Total de credit: <b>{% if total_rest == None %} 0 {% else %} {{total_rest.rest__sum}} {% endif %}</b>  </div>
             <div class="stat div-hba1c">Total HBA1C Gratuit : <b>{{hba1c_free}}</b>  </div>
         </div>
